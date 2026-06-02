@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Centro de Memória Digital · Pinacoteca</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F4EE;
+  --surface:#FFFFFF;
+  --surface2:#F2EEE5;
+  --surface3:#EAE4D8;
+  --border:rgba(50,35,10,0.09);
+  --border-md:rgba(50,35,10,0.18);
+  --border-strong:rgba(50,35,10,0.28);
+  --text-1:#18140E;
+  --text-2:#52473A;
+  --text-3:#8A7D6E;
+  --text-4:#B5A898;
+  --accent:#8B3A10;
+  --accent2:#C8782A;
+  --accent-light:#FBF0E8;
+  --accent-mid:#E8A06A;
+  --accent-hover:#6B2D0C;
+  --accent-glow:rgba(139,58,16,0.14);
+  --blue:#1A4F7E;
+  --blue-bg:#EBF2FB;
+  --green:#1E5C3C;
+  --green-bg:#E6F5EE;
+  --amber:#A0620A;
+  --amber-bg:#FEF3E0;
+  --red:#8C2020;
+  --red-bg:#FCEAEA;
+  --gray-bg:#F0EDE6;
+  --sh1:0 1px 2px rgba(0,0,0,0.05);
+  --sh2:0 2px 8px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.05);
+  --sh3:0 4px 16px rgba(0,0,0,0.09),0 1px 4px rgba(0,0,0,0.06);
+  --sh4:0 8px 32px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.07);
+  --sh5:0 20px 60px rgba(0,0,0,0.16),0 4px 16px rgba(0,0,0,0.09);
+  --r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:20px;--r-full:999px;
+  --t:0.18s ease;
+  --t-slow:0.35s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-1);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+
+/* ─── SCREENS ─────────────────────────────────────── */
+.screen{display:none;min-height:100vh;flex-direction:column;animation:fadeIn .28s ease}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ─── TOP NAV ─────────────────────────────────────── */
+nav{
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:var(--sh1);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;font-size:16px;font-weight:600;
+  color:var(--text-1);display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;
+  letter-spacing:-.02em;
+}
+.nav-logo .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.nav-badge{
+  background:var(--accent);color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:1.2px;
+  padding:2px 7px;border-radius:3px;text-transform:uppercase;
+}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-link{
+  font-size:13px;color:var(--text-3);text-decoration:none;cursor:pointer;
+  padding:5px 11px;border-radius:var(--r-sm);transition:background var(--t),color var(--t);
+  font-weight:400;
+}
+.nav-link:hover{background:var(--surface2);color:var(--text-1)}
+.nav-link.active{color:var(--accent);font-weight:500;background:var(--accent-light)}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.btn-ai{
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-md);
+  padding:7px 15px;font-size:13px;font-weight:500;cursor:pointer;
+  font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;
+  transition:background var(--t),transform var(--t),box-shadow var(--t);
+  box-shadow:0 2px 8px var(--accent-glow);
+}
+.btn-ai:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 14px var(--accent-glow)}
+.btn-ai:active{transform:translateY(0)}
+.nav-user-chip{
+  display:flex;align-items:center;gap:8px;background:var(--accent-light);
+  border:1px solid rgba(139,58,16,0.2);border-radius:var(--r-full);
+  padding:4px 12px 4px 4px;cursor:pointer;
+}
+.nav-user-av{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500}
+.nav-user-name{font-size:12px;font-weight:500;color:var(--accent)}
+.nav-user-role{font-size:10px;color:var(--text-3)}
+
+/* ─── BREADCRUMB ──────────────────────────────────── */
+.breadcrumb{
+  padding:9px 2rem;font-size:12px;color:var(--text-4);
+  display:flex;gap:6px;align-items:center;
+  background:var(--surface);border-bottom:1px solid var(--border);
+}
+.bc-link{color:var(--accent);cursor:pointer;text-decoration:none;transition:opacity var(--t)}
+.bc-link:hover{opacity:.75;text-decoration:underline}
+.bc-sep{color:var(--text-4)}
+
+/* ─── SCREEN LABEL ────────────────────────────────── */
+.screen-label{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;
+  font-size:11px;padding:4px 1.5rem;display:flex;align-items:center;gap:10px;
+  letter-spacing:.4px;
+}
+.screen-label strong{font-weight:500}
+
+/* ─── BUTTONS ─────────────────────────────────────── */
+.btn-primary{
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-md);
+  padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;
+  font-family:'DM Sans',sans-serif;width:100%;text-align:center;
+  transition:background var(--t),box-shadow var(--t),transform var(--t);
+  box-shadow:0 2px 8px var(--accent-glow);
+}
+.btn-primary:hover{background:var(--accent-hover);box-shadow:0 4px 14px var(--accent-glow);transform:translateY(-1px)}
+.btn-secondary{
+  background:var(--surface);color:var(--text-2);border:1px solid var(--border-md);
+  border-radius:var(--r-md);padding:9px 18px;font-size:13px;
+  font-family:'DM Sans',sans-serif;cursor:pointer;width:100%;text-align:center;
+  transition:background var(--t),border-color var(--t);
+}
+.btn-secondary:hover{background:var(--surface2);border-color:var(--border-strong)}
+
+/* ─── SECTION TITLE ───────────────────────────────── */
+.sec-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:500;color:var(--text-1);margin-bottom:.3rem;letter-spacing:-.02em}
+.sec-sub{font-size:12px;color:var(--text-3);margin-bottom:1.25rem}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 1 · HOME
+═══════════════════════════════════════════════════ */
+.hero{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:4.5rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(200,120,42,0.08),transparent);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--accent-light);border:1px solid rgba(139,58,16,0.18);
+  border-radius:var(--r-full);padding:4px 14px;
+  font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.6px;text-transform:uppercase;
+  margin-bottom:1.5rem;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;font-size:44px;font-weight:600;line-height:1.15;
+  color:var(--text-1);margin-bottom:.9rem;letter-spacing:-.03em;
+  max-width:680px;margin-left:auto;margin-right:auto;
+}
+.hero h1 em{font-style:italic;color:var(--accent2)}
+.hero-sub{color:var(--text-2);font-size:15px;margin-bottom:2.25rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}
+.search-wrap{max-width:660px;margin:0 auto;position:relative}
+.search-input{
+  width:100%;padding:15px 58px 15px 22px;
+  border:1.5px solid var(--border-md);border-radius:var(--r-xl);
+  font-size:14px;font-family:'DM Sans',sans-serif;
+  background:var(--surface);color:var(--text-1);outline:none;
+  transition:border-color var(--t),box-shadow var(--t);
+  box-shadow:var(--sh2);
+}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow),var(--sh2)}
+.search-input::placeholder{color:var(--text-4)}
+.search-go{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-lg);
+  width:40px;height:40px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--t);
+}
+.search-go:hover{background:var(--accent-hover)}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:1.1rem}
+.chip{
+  background:var(--surface);border:1px solid var(--border-md);border-radius:var(--r-full);
+  padding:5px 14px;font-size:12px;color:var(--text-2);cursor:pointer;
+  transition:background var(--t),border-color var(--t),color var(--t),box-shadow var(--t);
+  box-shadow:var(--sh1);
+}
+.chip:hover{background:var(--accent-light);border-color:rgba(139,58,16,0.3);color:var(--accent);box-shadow:var(--sh2)}
+
+.home-body{padding:2.5rem 2rem;max-width:1120px;margin:0 auto;width:100%}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:2.75rem}
+.feat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:1.4rem;cursor:pointer;
+  transition:box-shadow var(--t-slow),transform var(--t-slow),border-color var(--t);
+  box-shadow:var(--sh1);
+}
+.feat-card:hover{box-shadow:var(--sh4);transform:translateY(-3px);border-color:var(--border-md)}
+.feat-icon{
+  width:44px;height:44px;border-radius:var(--r-md);background:var(--accent-light);
+  display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.feat-card h3{font-size:14px;font-weight:500;margin-bottom:5px;color:var(--text-1)}
+.feat-card p{font-size:12px;color:var(--text-3);line-height:1.55}
+.feat-badge{
+  display:inline-block;background:var(--accent);color:#fff;
+  font-size:9px;padding:2px 7px;border-radius:3px;margin-left:6px;
+  letter-spacing:1px;text-transform:uppercase;font-weight:500;vertical-align:middle;
+}
+.artist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2.75rem}
+.artist-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;cursor:pointer;
+  transition:box-shadow var(--t-slow),transform var(--t-slow);
+  box-shadow:var(--sh1);
+}
+.artist-card:hover{box-shadow:var(--sh3);transform:translateY(-2px)}
+.artist-thumb{
+  height:100px;display:flex;align-items:center;justify-content:center;
+  font-size:36px;font-weight:700;color:rgba(255,255,255,0.9);
+  position:relative;overflow:hidden;
+}
+.artist-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.25))}
+.artist-card-body{padding:10px 13px}
+.artist-card-body h4{font-size:13px;font-weight:500;margin-bottom:2px}
+.artist-card-body p{font-size:11px;color:var(--text-3)}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 2 · RESULTS
+═══════════════════════════════════════════════════ */
+.results-layout{display:flex;flex:1}
+.filters-panel{
+  width:256px;min-width:256px;background:var(--surface);
+  border-right:1px solid var(--border);padding:1.25rem;overflow-y:auto;
+}
+.fp-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-3);margin-bottom:1rem}
+.active-filter{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--accent-light);border:1px solid rgba(139,58,16,0.2);
+  color:var(--accent);border-radius:4px;padding:3px 9px;font-size:12px;
+  margin:0 4px 4px 0;cursor:pointer;transition:background var(--t);
+}
+.active-filter:hover{background:rgba(139,58,16,0.15)}
+.filter-group{margin-bottom:1.4rem}
+.filter-group-title{
+  font-size:12px;font-weight:500;color:var(--text-2);margin-bottom:7px;
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+}
+.filter-option{
+  display:flex;align-items:center;gap:8px;font-size:12px;
+  padding:4px 0;cursor:pointer;color:var(--text-2);
+}
+.filter-option input[type=checkbox]{accent-color:var(--accent);width:13px;height:13px}
+.filter-count{font-size:11px;color:var(--text-4);margin-left:auto}
+
+.results-main{flex:1;padding:1.25rem 1.75rem;overflow-y:auto}
+.results-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:8px}
+.results-hd h2{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;letter-spacing:-.02em}
+.results-meta{font-size:12px;color:var(--text-3);margin-top:2px}
+.results-controls{display:flex;align-items:center;gap:8px}
+.sort-select{
+  font-size:12px;border:1px solid var(--border-md);border-radius:var(--r-sm);
+  padding:5px 9px;background:var(--surface);color:var(--text-2);
+  font-family:'DM Sans',sans-serif;cursor:pointer;outline:none;
+}
+.view-btns{display:flex;gap:3px}
+.vbtn{
+  width:30px;height:30px;border:1px solid var(--border);background:var(--surface);
+  border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:13px;transition:background var(--t),border-color var(--t);
+}
+.vbtn.active,.vbtn:hover{background:var(--accent-light);border-color:rgba(139,58,16,0.25)}
+
+.ai-banner{
+  background:linear-gradient(135deg,#FFFAF5,#FEF3E6);
+  border:1px solid rgba(200,120,42,0.25);border-radius:var(--r-lg);
+  padding:1rem 1.25rem;margin-bottom:1.25rem;
+  display:flex;gap:12px;align-items:flex-start;box-shadow:var(--sh1);
+}
+.ai-banner-icon{
+  width:36px;height:36px;border-radius:var(--r-md);background:var(--accent);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0;
+  box-shadow:0 2px 8px var(--accent-glow);
+}
+.ai-banner-text{font-size:13px;color:var(--text-2);line-height:1.55}
+.ai-banner-text strong{color:var(--text-1);font-weight:500}
+.ai-banner-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.ai-pill{
+  background:rgba(139,58,16,0.1);color:var(--accent);
+  border-radius:4px;padding:3px 10px;font-size:11px;cursor:pointer;
+  border:1px solid rgba(139,58,16,0.18);transition:background var(--t);font-weight:500;
+}
+.ai-pill:hover{background:rgba(139,58,16,0.16)}
+
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.result-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;cursor:pointer;
+  transition:box-shadow var(--t-slow),transform var(--t-slow),border-color var(--t);
+  box-shadow:var(--sh1);
+}
+.result-card:hover{box-shadow:var(--sh4);transform:translateY(-2px);border-color:var(--border-md)}
+.result-thumb{
+  height:165px;position:relative;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.result-thumb-art{width:100%;height:100%;position:absolute;inset:0}
+.rt-badge{
+  position:absolute;top:9px;left:9px;
+  background:rgba(255,255,255,0.93);backdrop-filter:blur(6px);
+  border-radius:4px;padding:2px 9px;font-size:10px;color:var(--text-2);
+  font-weight:500;text-transform:uppercase;letter-spacing:.6px;
+  box-shadow:var(--sh1);
+}
+.rt-save{
+  position:absolute;top:9px;right:9px;opacity:0;
+  background:rgba(255,255,255,0.93);backdrop-filter:blur(6px);
+  border-radius:var(--r-sm);width:28px;height:28px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  transition:opacity var(--t),background var(--t);
+}
+.result-card:hover .rt-save{opacity:1}
+.rt-save:hover{background:#fff}
+.result-body{padding:12px 14px 14px}
+.result-body h4{font-size:13px;font-weight:500;margin-bottom:3px;line-height:1.3;color:var(--text-1)}
+.result-artist{font-size:12px;color:var(--accent2);font-style:italic;margin-bottom:7px}
+.result-tags{display:flex;gap:5px;flex-wrap:wrap}
+.rt-tag{background:var(--gray-bg);color:var(--text-3);font-size:10px;padding:2px 7px;border-radius:3px}
+
+/* ═══════════════════════════════════════════════════
+   CSS ART for thumbnails
+═══════════════════════════════════════════════════ */
+.art-fayga1{background:linear-gradient(135deg,#C0392B,#8B2020,#E74C3C 60%,#922B21);position:relative;overflow:hidden}
+.art-fayga1::before{content:'';position:absolute;width:60%;height:80%;border-radius:50% 30% 60% 40%;background:rgba(255,200,100,0.3);top:10%;left:15%;transform:rotate(-15deg)}
+.art-fayga1::after{content:'';position:absolute;width:35%;height:55%;border-radius:40% 60% 30% 70%;background:rgba(20,20,80,0.4);bottom:5%;right:10%;transform:rotate(20deg)}
+.art-fayga2{background:linear-gradient(160deg,#1A3A6E,#0D2550,#1E5FA0 70%,#154080)}
+.art-fayga2::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 60%,rgba(100,160,255,0.25),transparent 60%)}
+.art-fayga3{background:linear-gradient(120deg,#2C5F8A,#1A3D5C,#3A7DB8);overflow:hidden;position:relative}
+.art-fayga3::before{content:'';position:absolute;width:50%;height:100%;background:linear-gradient(180deg,#5B9BD5,#1A4A7A);left:0;clip-path:polygon(0 0,100% 20%,100% 80%,0 100%)}
+.art-portinari{background:linear-gradient(140deg,#4A3728,#6B4D3A,#3D2E22);overflow:hidden;position:relative}
+.art-portinari::before{content:'';position:absolute;bottom:0;left:10%;width:80%;height:70%;background:rgba(200,160,100,0.2);border-radius:50% 50% 0 0}
+.art-lygia{background:linear-gradient(135deg,#1C3D2E,#2D6B4A,#14301F);overflow:hidden;position:relative}
+.art-lygia::before{content:'';position:absolute;width:70%;height:70%;background:linear-gradient(45deg,rgba(100,220,150,0.3),rgba(50,180,100,0.2));top:15%;left:15%;border-radius:30% 70% 70% 30%/30% 30% 70% 70%}
+.art-camargo{background:linear-gradient(150deg,#3A2A1E,#5C4030,#2A1E14);overflow:hidden;position:relative}
+.art-camargo::before{content:'';position:absolute;width:55%;height:55%;background:rgba(180,130,80,0.25);top:20%;left:20%;border-radius:50%;box-shadow:0 0 0 15px rgba(180,130,80,0.1)}
+.art-serie{background:linear-gradient(120deg,#4A3018,#7A5028,#3C2410);overflow:hidden;position:relative}
+.art-serie::before{content:'';position:absolute;width:3px;height:80%;background:rgba(200,160,100,0.5);top:10%;left:20%}
+.art-serie::after{content:'';position:absolute;width:3px;height:60%;background:rgba(200,160,100,0.4);top:20%;left:40%}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 3 · ARTIST PROFILE
+═══════════════════════════════════════════════════ */
+.artist-hd{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:2rem;position:relative;overflow:hidden;
+}
+.artist-hd::before{
+  content:'';position:absolute;top:0;right:0;width:50%;height:100%;
+  background:radial-gradient(ellipse at 80% 50%,rgba(200,120,42,0.06),transparent 70%);
+  pointer-events:none;
+}
+.artist-hd-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:180px 1fr;gap:2rem;align-items:start}
+.artist-portrait{
+  width:180px;height:220px;border-radius:var(--r-lg);
+  overflow:hidden;border:1px solid var(--border);
+  background:linear-gradient(145deg,#C8813A,#8B4513);
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;box-shadow:var(--sh3);flex-shrink:0;
+}
+.artist-hd h1{font-family:'Playfair Display',serif;font-size:34px;font-weight:600;letter-spacing:-.03em;margin-bottom:3px}
+.artist-dates{font-size:13px;color:var(--text-3);margin-bottom:1rem}
+.artist-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
+.a-tag{
+  background:var(--accent-light);border:1px solid rgba(139,58,16,0.18);
+  color:var(--accent);border-radius:4px;padding:4px 12px;font-size:11px;font-weight:500;
+}
+.artist-bio{font-size:13px;color:var(--text-2);line-height:1.7;max-width:680px;margin-bottom:1.25rem}
+.artist-stats{display:flex;gap:2rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.as-item{text-align:left}
+.as-val{font-size:22px;font-weight:500;line-height:1;color:var(--text-1)}
+.as-lbl{font-size:11px;color:var(--text-3);margin-top:3px}
+
+.artist-body{flex:1;padding:1.5rem 2rem 2rem;max-width:1120px;margin:0 auto;width:100%}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.tab{
+  padding:10px 18px;font-size:13px;font-weight:500;color:var(--text-3);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color var(--t),border-color var(--t);
+}
+.tab.active{color:var(--accent);border-color:var(--accent)}
+.tab:hover{color:var(--text-1)}
+.two-col{display:grid;grid-template-columns:1fr 300px;gap:1.75rem}
+
+/* Timeline */
+.timeline{position:relative}
+.timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:0;width:1px;background:var(--border-md)}
+.tl-item{padding-left:30px;position:relative;margin-bottom:1.5rem}
+.tl-dot{
+  position:absolute;left:0;top:5px;
+  width:17px;height:17px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent);
+  box-shadow:0 0 0 3px var(--accent-light);
+}
+.tl-year{font-size:11px;color:var(--accent2);font-weight:500;margin-bottom:2px;letter-spacing:.3px}
+.tl-title{font-size:13px;font-weight:500;margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--text-3);line-height:1.55}
+
+/* Sidebar widgets */
+.sw{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.15rem 1.25rem;margin-bottom:1rem;
+  box-shadow:var(--sh1);
+}
+.sw-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-3);margin-bottom:.85rem}
+.sw-link{
+  display:flex;align-items:center;gap:9px;padding:7px 0;
+  border-bottom:1px solid var(--border);cursor:pointer;font-size:13px;color:var(--text-2);
+  transition:color var(--t);text-decoration:none;
+}
+.sw-link:last-child{border-bottom:none}
+.sw-link:hover{color:var(--accent)}
+.sw-link-icon{font-size:15px;flex-shrink:0;width:18px;text-align:center}
+
+/* Works grid */
+.works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:.5rem}
+.work-mini{
+  border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);
+  cursor:pointer;box-shadow:var(--sh1);
+  transition:box-shadow var(--t-slow),transform var(--t-slow);
+}
+.work-mini:hover{box-shadow:var(--sh3);transform:translateY(-2px)}
+.work-mini-img{height:110px;position:relative;overflow:hidden}
+.work-mini-info{padding:8px 10px;background:var(--surface)}
+.work-mini-info h5{font-size:11px;font-weight:500;margin-bottom:1px;line-height:1.3}
+.work-mini-info p{font-size:10px;color:var(--text-3)}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 4 · AI ASSISTANT
+═══════════════════════════════════════════════════ */
+.ai-screen{flex:1;display:flex;flex-direction:column;height:calc(100vh - 82px)}
+.ai-header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:.9rem 2rem;display:flex;align-items:center;gap:12px;
+  box-shadow:var(--sh1);
+}
+.ai-av{
+  width:40px;height:40px;border-radius:50%;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;
+  box-shadow:0 2px 8px var(--accent-glow);flex-shrink:0;
+}
+.ai-hd-name{font-size:15px;font-weight:500;margin-bottom:1px}
+.ai-hd-sub{font-size:11px;color:var(--text-3)}
+.ai-online{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);margin-left:auto}
+.ai-online::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.ai-msgs{
+  flex:1;overflow-y:auto;padding:1.5rem 0;
+  display:flex;flex-direction:column;gap:1.25rem;
+  max-width:800px;width:100%;margin:0 auto;padding-left:2rem;padding-right:2rem;
+}
+.msg{display:flex;gap:10px;align-items:flex-start;max-width:88%}
+.msg.user{flex-direction:row-reverse;align-self:flex-end}
+.msg-av{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;
+}
+.msg-av.ai{background:var(--accent);color:#fff;box-shadow:0 2px 6px var(--accent-glow)}
+.msg-av.user{background:var(--blue-bg);color:var(--blue)}
+.msg-bubble{
+  padding:11px 15px;border-radius:var(--r-lg);font-size:13px;line-height:1.6;
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh1);
+}
+.msg.user .msg-bubble{
+  background:var(--accent);color:#fff;border-color:var(--accent);
+  border-bottom-right-radius:4px;box-shadow:0 2px 8px var(--accent-glow);
+}
+.msg:not(.user) .msg-bubble{border-bottom-left-radius:4px}
+.msg-bubble p{margin-bottom:7px}
+.msg-bubble p:last-child{margin-bottom:0}
+.msg-bubble ul{padding-left:16px;margin:5px 0}
+.msg-bubble li{margin-bottom:3px}
+.src-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.src-pill{
+  background:var(--accent-light);color:var(--accent);
+  border:1px solid rgba(139,58,16,0.2);border-radius:4px;
+  padding:3px 9px;font-size:11px;cursor:pointer;font-weight:500;
+  transition:background var(--t);
+}
+.src-pill:hover{background:rgba(139,58,16,0.15)}
+.sugg-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.sugg-btn{
+  background:var(--surface2);color:var(--text-2);border:1px solid var(--border-md);
+  border-radius:var(--r-full);padding:5px 13px;font-size:12px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:background var(--t),color var(--t),border-color var(--t);
+}
+.sugg-btn:hover{background:var(--accent-light);color:var(--accent);border-color:rgba(139,58,16,0.25)}
+
+.typing{display:flex;gap:4px;align-items:center;padding:3px 0}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--text-3);animation:bounce 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+.ai-input-wrap{
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);padding:1rem 2rem 1.1rem;
+  max-width:800px;width:100%;margin:0 auto;align-self:center;
+}
+.ai-ctx-bar{
+  display:flex;align-items:center;gap:8px;background:var(--accent-light);
+  border:1px solid rgba(139,58,16,0.18);border-radius:var(--r-sm);
+  padding:6px 12px;margin-bottom:10px;font-size:12px;color:var(--text-2);
+}
+.ai-ctx-bar span{font-weight:500;color:var(--accent)}
+.ai-ctx-bar button{background:none;border:none;cursor:pointer;color:var(--text-3);margin-left:auto;font-size:15px;line-height:1}
+.ai-q-chips{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.q-chip{
+  background:var(--surface);border:1px solid var(--border-md);border-radius:var(--r-full);
+  padding:4px 12px;font-size:12px;color:var(--text-2);cursor:pointer;
+  transition:background var(--t),color var(--t);box-shadow:var(--sh1);
+}
+.q-chip:hover{background:var(--accent-light);color:var(--accent);border-color:rgba(139,58,16,0.25)}
+.ai-row{display:flex;gap:8px;align-items:flex-end}
+.ai-ta{
+  flex:1;border:1.5px solid var(--border-md);border-radius:var(--r-lg);
+  padding:10px 14px;font-size:13px;font-family:'DM Sans',sans-serif;
+  resize:none;outline:none;background:var(--bg);color:var(--text-1);
+  min-height:44px;max-height:120px;overflow-y:auto;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.ai-ta:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.ai-send{
+  width:44px;height:44px;border-radius:var(--r-lg);
+  background:var(--accent);border:none;color:#fff;
+  font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background var(--t),transform var(--t);flex-shrink:0;
+  box-shadow:0 2px 8px var(--accent-glow);
+}
+.ai-send:hover{background:var(--accent-hover);transform:translateY(-1px)}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 5 · WORK DETAIL
+═══════════════════════════════════════════════════ */
+.work-layout{display:grid;grid-template-columns:1fr 390px;flex:1}
+.work-viewer{
+  background:#1E1814;display:flex;align-items:center;justify-content:center;
+  min-height:500px;position:relative;flex-direction:column;
+  overflow:hidden;
+}
+.work-viewer-art{
+  width:62%;aspect-ratio:3/4;
+  border-radius:var(--r-md);overflow:hidden;
+  box-shadow:0 20px 80px rgba(0,0,0,0.6),0 4px 20px rgba(0,0,0,0.4);
+  position:relative;
+}
+.work-viewer-caption{
+  color:rgba(255,255,255,0.4);font-size:12px;margin-top:1.25rem;letter-spacing:.3px;
+}
+.viewer-ctrl{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;background:rgba(30,24,20,0.8);backdrop-filter:blur(10px);
+  padding:7px 12px;border-radius:var(--r-full);border:1px solid rgba(255,255,255,0.1);
+}
+.vc-btn{
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.85);border-radius:var(--r-sm);
+  padding:5px 13px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:background var(--t);
+}
+.vc-btn:hover{background:rgba(255,255,255,0.16)}
+
+.work-info{
+  background:var(--surface);border-left:1px solid var(--border);
+  padding:1.5rem;overflow-y:auto;
+}
+.work-info h2{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:600;
+  line-height:1.25;margin-bottom:4px;letter-spacing:-.02em;
+}
+.work-artist-link{color:var(--accent2);font-size:13px;cursor:pointer;display:block;margin-bottom:1.25rem;font-style:italic}
+.work-artist-link:hover{text-decoration:underline}
+.ai-insight-box{
+  background:linear-gradient(135deg,var(--accent-light),#FEF3E0);
+  border:1px solid rgba(200,120,42,0.22);border-radius:var(--r-md);
+  padding:10px 13px;margin-bottom:1.25rem;border-left:3px solid var(--accent2);
+}
+.ai-insight-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin-bottom:4px}
+.ai-insight-box p{font-size:12px;color:var(--text-2);line-height:1.55}
+.meta-tbl{width:100%;border-collapse:collapse;margin-bottom:1.25rem}
+.meta-tbl tr{border-bottom:1px solid var(--border)}
+.meta-tbl tr:last-child{border-bottom:none}
+.meta-tbl td{padding:7px 0;vertical-align:top}
+.meta-tbl td:first-child{font-size:11px;color:var(--text-4);width:110px;padding-right:10px;padding-top:9px}
+.meta-tbl td:last-child{font-size:13px;color:var(--text-1)}
+.divider{border:none;border-top:1px solid var(--border);margin:1.1rem 0}
+.info-sec-lbl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:9px}
+.sem-tags{display:flex;gap:6px;flex-wrap:wrap}
+.sem-tag{
+  background:var(--gray-bg);border:1px solid var(--border-md);
+  border-radius:4px;padding:4px 10px;font-size:12px;color:var(--text-2);
+  cursor:pointer;transition:background var(--t),color var(--t),border-color var(--t);
+}
+.sem-tag:hover{background:var(--accent-light);color:var(--accent);border-color:rgba(139,58,16,0.25)}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 6 · COLLECTIONS
+═══════════════════════════════════════════════════ */
+.colls-layout{display:grid;grid-template-columns:270px 1fr;flex:1;min-height:0}
+.colls-sidebar{
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:1.25rem;overflow-y:auto;display:flex;flex-direction:column;gap:5px;
+}
+.cs-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-3);padding:4px 0;margin-bottom:4px}
+.cs-item{
+  display:flex;align-items:center;gap:10px;padding:8px 10px;
+  border-radius:var(--r-md);cursor:pointer;border:1px solid transparent;
+  transition:background var(--t),border-color var(--t),box-shadow var(--t);
+}
+.cs-item:hover{background:var(--surface2)}
+.cs-item.active{background:var(--accent-light);border-color:rgba(139,58,16,0.18);box-shadow:var(--sh1)}
+.cs-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.cs-name{font-size:13px;font-weight:500;flex:1;color:var(--text-2)}
+.cs-item.active .cs-name{color:var(--accent)}
+.cs-count{font-size:11px;color:var(--text-4)}
+.cs-new{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;
+  border-radius:var(--r-md);cursor:pointer;font-size:13px;color:var(--accent);font-weight:500;
+  border:1.5px dashed rgba(139,58,16,0.3);margin-top:4px;
+  transition:background var(--t);
+}
+.cs-new:hover{background:var(--accent-light)}
+.colls-main{padding:1.5rem 2rem;overflow-y:auto}
+.coll-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;gap:1rem}
+.coll-hd h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;margin-bottom:3px;letter-spacing:-.02em}
+.coll-hd p{font-size:12px;color:var(--text-3)}
+.coll-actions{display:flex;gap:7px;flex-shrink:0}
+.ca-btn{
+  background:var(--surface);border:1px solid var(--border-md);border-radius:var(--r-md);
+  padding:7px 13px;font-size:12px;color:var(--text-2);cursor:pointer;
+  font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;
+  transition:background var(--t);box-shadow:var(--sh1);
+}
+.ca-btn:hover{background:var(--surface2)}
+.ca-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 8px var(--accent-glow)}
+.ca-btn.primary:hover{background:var(--accent-hover)}
+.coll-meta{
+  display:flex;align-items:center;gap:1rem;padding:9px 14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  margin-bottom:1.25rem;flex-wrap:wrap;box-shadow:var(--sh1);
+}
+.cm-item{font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:5px}
+.cm-item strong{color:var(--text-1);font-weight:500}
+.cm-div{width:1px;height:14px;background:var(--border-md)}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.coll-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;position:relative;cursor:pointer;
+  transition:box-shadow var(--t-slow),transform var(--t-slow);box-shadow:var(--sh1);
+}
+.coll-card:hover{box-shadow:var(--sh4);transform:translateY(-2px)}
+.coll-card:hover .cc-remove{opacity:1}
+.cc-thumb{height:130px;position:relative;overflow:hidden}
+.cc-remove{
+  position:absolute;top:7px;right:7px;opacity:0;
+  background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);color:#fff;
+  border:none;border-radius:50%;width:26px;height:26px;font-size:13px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:opacity var(--t),background var(--t);
+}
+.cc-remove:hover{background:rgba(180,30,30,0.7)}
+.cc-body{padding:11px 13px}
+.cc-body h4{font-size:13px;font-weight:500;margin-bottom:3px;line-height:1.3}
+.cc-artist{font-size:11px;color:var(--accent2);font-style:italic;margin-bottom:7px}
+.cc-note{
+  font-size:11px;color:var(--text-2);padding:6px 9px;
+  background:linear-gradient(135deg,var(--accent-light),#FEF3E0);
+  border-radius:5px;line-height:1.45;border-left:2px solid var(--accent2);
+}
+.cc-add-note{font-size:11px;color:var(--accent);cursor:pointer;margin-top:6px;display:inline-flex;align-items:center;gap:3px}
+.cc-placeholder{
+  border:1.5px dashed var(--border-md);border-radius:var(--r-lg);height:220px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  color:var(--text-3);cursor:pointer;transition:background var(--t);
+}
+.cc-placeholder:hover{background:var(--surface2)}
+.cc-placeholder span{font-size:26px}
+.cc-placeholder p{font-size:12px}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 7 · ACQUISITION
+═══════════════════════════════════════════════════ */
+.acq-layout{display:grid;grid-template-columns:256px 1fr;flex:1;min-height:0}
+.acq-filters{background:var(--surface);border-right:1px solid var(--border);padding:1.25rem;overflow-y:auto}
+.acq-main{padding:1.5rem 2rem;overflow-y:auto}
+.acq-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.acq-stat{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:.95rem 1.1rem;box-shadow:var(--sh1);
+}
+.acq-stat-lbl{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.acq-stat-val{font-size:24px;font-weight:500;line-height:1;margin-bottom:3px}
+.acq-stat-sub{font-size:11px;color:var(--text-3)}
+.acq-stat.hl{background:var(--accent-light);border-color:rgba(139,58,16,0.2)}
+.acq-stat.hl .acq-stat-val{color:var(--accent)}
+.acq-ai-banner{
+  background:linear-gradient(135deg,#FFFAF5,#FEF3E6);
+  border:1px solid rgba(200,120,42,0.22);border-radius:var(--r-lg);
+  padding:1rem 1.25rem;margin-bottom:1.5rem;
+  display:flex;gap:13px;align-items:flex-start;box-shadow:var(--sh1);
+}
+.acq-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
+.acq-tab{
+  padding:9px 16px;font-size:13px;font-weight:500;color:var(--text-3);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color var(--t),border-color var(--t);
+}
+.acq-tab.active{color:var(--accent);border-color:var(--accent)}
+.acq-tab-n{
+  background:var(--accent);color:#fff;font-size:10px;
+  padding:1px 6px;border-radius:10px;margin-left:5px;font-weight:500;
+}
+.acq-list{display:flex;flex-direction:column;gap:12px}
+.acq-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:1.1rem 1.25rem;display:grid;grid-template-columns:58px 1fr auto;gap:1rem;
+  box-shadow:var(--sh1);transition:box-shadow var(--t-slow),transform var(--t-slow);
+}
+.acq-card:hover{box-shadow:var(--sh3);transform:translateY(-1px)}
+.acq-card.urg{border-left:3px solid var(--accent2)}
+.acq-card.high{border-left:3px solid var(--blue)}
+.acq-card.med{border-left:3px solid var(--green)}
+
+/* SVG score ring */
+.score-ring{width:54px;height:54px;flex-shrink:0;position:relative}
+.score-ring svg{width:54px;height:54px;transform:rotate(-90deg)}
+.score-ring circle{fill:none;stroke-width:3.5}
+.score-track{stroke:var(--border-md)}
+.score-fill-urg{stroke:var(--accent2)}
+.score-fill-high{stroke:var(--blue)}
+.score-fill-med{stroke:var(--green)}
+.score-num{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-size:15px;font-weight:500;line-height:1;
+}
+.score-num small{font-size:8px;color:var(--text-3);font-weight:400;text-transform:uppercase}
+.score-num.urg{color:var(--accent2)}.score-num.high{color:var(--blue)}.score-num.med{color:var(--green)}
+
+.acq-card-body h4{font-size:14px;font-weight:500;margin-bottom:2px}
+.acq-artist{font-size:12px;color:var(--accent2);font-style:italic;margin-bottom:8px}
+.acq-rationale{
+  font-size:12px;color:var(--text-2);line-height:1.55;
+  background:var(--gray-bg);border-radius:var(--r-sm);padding:7px 10px;margin-bottom:9px;
+}
+.acq-rationale span{font-weight:500;color:var(--text-1)}
+.demand-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+.demand-lbl{font-size:11px;color:var(--text-3);width:100px;flex-shrink:0}
+.demand-track{flex:1;height:5px;background:var(--surface2);border-radius:var(--r-full);overflow:hidden}
+.demand-fill{height:100%;border-radius:var(--r-full);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.demand-val{font-size:11px;color:var(--text-2);font-weight:500;min-width:32px;text-align:right}
+.acq-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.acq-tag{background:var(--gray-bg);color:var(--text-3);font-size:10px;padding:2px 8px;border-radius:3px}
+.acq-tag.gap{background:var(--amber-bg);color:var(--amber)}
+.acq-tag.demand{background:var(--blue-bg);color:var(--blue)}
+.acq-tag.trend{background:var(--green-bg);color:var(--green)}
+.acq-card-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0}
+.pri-badge{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.7px;padding:3px 10px;border-radius:4px;white-space:nowrap}
+.pri-urg{background:var(--amber-bg);color:var(--amber)}.pri-high{background:var(--blue-bg);color:var(--blue)}.pri-med{background:var(--green-bg);color:var(--green)}
+.acq-btn-req{
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-md);
+  padding:7px 14px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;
+  cursor:pointer;white-space:nowrap;transition:background var(--t),box-shadow var(--t);
+  box-shadow:0 2px 6px var(--accent-glow);
+}
+.acq-btn-req:hover{background:var(--accent-hover)}
+.acq-btn-req:disabled{background:var(--green);cursor:default;box-shadow:none}
+.acq-btn-det{
+  background:none;border:1px solid var(--border-md);border-radius:var(--r-md);
+  padding:6px 12px;font-size:12px;color:var(--text-2);font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:background var(--t);
+}
+.acq-btn-det:hover{background:var(--surface2)}
+
+.acq-req-list{display:flex;flex-direction:column;gap:9px}
+.acq-req-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;
+  box-shadow:var(--sh1);
+}
+.req-st{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.7px;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.st-an{background:var(--amber-bg);color:var(--amber)}.st-ap{background:var(--green-bg);color:var(--green)}.st-pe{background:var(--blue-bg);color:var(--blue)}.st-re{background:var(--red-bg);color:var(--red)}
+.acq-req-info{flex:1}.acq-req-info h5{font-size:13px;font-weight:500;margin-bottom:2px}.acq-req-info p{font-size:11px;color:var(--text-3)}
+.acq-req-date{font-size:11px;color:var(--text-4);flex-shrink:0}
+
+/* ═══════════════════════════════════════════════════
+   SCREEN 8 · ADMIN
+═══════════════════════════════════════════════════ */
+.adm-layout{display:grid;grid-template-columns:220px 1fr;flex:1;min-height:0}
+.adm-sidebar{
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:1.25rem;display:flex;flex-direction:column;gap:4px;
+}
+.adm-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-3);margin-bottom:8px}
+.adm-item{
+  display:flex;align-items:center;gap:9px;padding:8px 10px;
+  border-radius:var(--r-md);cursor:pointer;font-size:13px;color:var(--text-2);
+  transition:background var(--t),color var(--t);border:1px solid transparent;
+}
+.adm-item:hover{background:var(--surface2)}
+.adm-item.active{background:var(--accent-light);color:var(--accent);font-weight:500;border-color:rgba(139,58,16,0.15)}
+.adm-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center}
+.adm-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500}
+.adm-sep{border:none;border-top:1px solid var(--border);margin:7px 0}
+.adm-main{padding:1.5rem 2rem;overflow-y:auto}
+.adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.adm-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:.95rem 1.1rem;box-shadow:var(--sh1)}
+.adm-stat-lbl{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.adm-stat-val{font-size:24px;font-weight:500;line-height:1;margin-bottom:3px}
+.adm-stat-sub{font-size:11px;color:var(--text-3)}
+.adm-stat.warn{background:var(--amber-bg);border-color:rgba(160,98,10,0.22)}
+.adm-stat.warn .adm-stat-val{color:var(--amber)}
+.adm-toolbar{display:flex;align-items:center;gap:9px;margin-bottom:1.1rem;flex-wrap:wrap}
+.adm-search-wrap{position:relative;flex:1;min-width:200px}
+.adm-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-4);pointer-events:none}
+.adm-search{
+  width:100%;border:1px solid var(--border-md);border-radius:var(--r-md);
+  padding:8px 12px 8px 33px;font-size:13px;font-family:'DM Sans',sans-serif;
+  background:var(--bg);color:var(--text-1);outline:none;transition:border-color var(--t);
+}
+.adm-search:focus{border-color:var(--accent)}
+.adm-fsel{border:1px solid var(--border-md);border-radius:var(--r-md);padding:7px 10px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text-2);cursor:pointer;outline:none}
+.adm-inv-btn{
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-md);
+  padding:8px 15px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;
+  cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:background var(--t);box-shadow:0 2px 8px var(--accent-glow);
+}
+.adm-inv-btn:hover{background:var(--accent-hover)}
+
+/* Table */
+.adm-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:1.25rem;box-shadow:var(--sh1)}
+.adm-table{width:100%;border-collapse:collapse;font-size:13px}
+.adm-table thead tr{background:var(--surface2)}
+.adm-table th{
+  text-align:left;padding:10px 14px;font-size:11px;font-weight:500;
+  text-transform:uppercase;letter-spacing:1px;color:var(--text-3);
+  border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none;
+}
+.adm-table th:hover{color:var(--text-2)}
+.adm-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.adm-table tbody tr:last-child td{border-bottom:none}
+.adm-table tbody tr:hover{background:#FDFCFA}
+.adm-user-cell{display:flex;align-items:center;gap:10px}
+.adm-av{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;
+  box-shadow:var(--sh1);
+}
+.adm-uname{font-weight:500;font-size:13px;line-height:1.3}
+.adm-uemail{font-size:11px;color:var(--text-3)}
+.role-b{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:4px;white-space:nowrap}
+.role-admin{background:var(--amber-bg);color:var(--amber)}
+.role-curador{background:var(--blue-bg);color:var(--blue)}
+.role-pesq{background:var(--green-bg);color:var(--green)}
+.role-visit{background:var(--gray-bg);color:var(--text-3)}
+.stat-b{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 9px;border-radius:4px}
+.stat-b::before{content:'';width:6px;height:6px;border-radius:50%}
+.st-ativo{background:var(--green-bg);color:var(--green)}.st-ativo::before{background:var(--green)}
+.st-inativo{background:var(--gray-bg);color:var(--text-3)}.st-inativo::before{background:var(--text-4)}
+.st-suspenso{background:var(--red-bg);color:var(--red)}.st-suspenso::before{background:var(--red)}
+.st-pendente{background:var(--amber-bg);color:var(--amber)}.st-pendente::before{background:var(--amber)}
+.row-acts{display:flex;gap:5px;align-items:center}
+.row-btn{
+  background:none;border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:4px 9px;font-size:11px;cursor:pointer;color:var(--text-2);
+  font-family:'DM Sans',sans-serif;transition:background var(--t),border-color var(--t);
+}
+.row-btn:hover{background:var(--surface2)}
+.row-btn.pri{background:var(--accent-light);color:var(--accent);border-color:rgba(139,58,16,0.22)}
+.row-btn.dng:hover{background:var(--red-bg);color:var(--red);border-color:rgba(140,32,32,0.3)}
+
+/* Permission matrix */
+.perm-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:1.25rem;box-shadow:var(--sh1)}
+.perm-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.perm-tbl th,.perm-tbl td{padding:10px 16px;border-bottom:1px solid var(--border)}
+.perm-tbl thead tr{background:var(--surface2)}
+.perm-tbl th{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);text-align:center}
+.perm-tbl th:first-child{text-align:left}
+.perm-tbl td{text-align:center}.perm-tbl td:first-child{font-size:13px;font-weight:500;color:var(--text-2);text-align:left}
+.perm-tbl tbody tr:last-child td{border-bottom:none}
+.perm-tbl tbody tr:hover{background:#FDFCFA}
+.pck{font-size:16px;color:var(--green)}.ppt{font-size:12px;color:var(--amber);font-weight:500}.pno{font-size:15px;color:var(--border-strong)}
+.perm-edit{font-size:11px;color:var(--accent);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-decoration:underline}
+
+/* Audit */
+.audit-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh1)}
+.audit-item{
+  display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:start;
+  padding:12px 16px;border-bottom:1px solid var(--border);
+  transition:background var(--t);
+}
+.audit-item:last-child{border-bottom:none}
+.audit-item:hover{background:#FDFCFA}
+.audit-ic{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.aic-add{background:var(--green-bg)}.aic-edit{background:var(--blue-bg)}.aic-rm{background:var(--red-bg)}.aic-acc{background:var(--amber-bg)}.aic-sys{background:var(--gray-bg)}
+.audit-body strong{font-size:13px;font-weight:500;display:block;margin-bottom:2px}
+.audit-body p{font-size:12px;color:var(--text-3)}
+.audit-time{font-size:11px;color:var(--text-4);white-space:nowrap;padding-top:3px}
+
+/* ═══════════════════════════════════════════════════
+   MODALS — shared
+═══════════════════════════════════════════════════ */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(20,15,10,0.55);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+  animation:fadeBg .2s ease;
+}
+.overlay.open{display:flex}
+@keyframes fadeBg{from{opacity:0}to{opacity:1}}
+.modal-box{
+  background:var(--surface);border-radius:var(--r-xl);
+  width:440px;max-width:95vw;padding:1.6rem;
+  box-shadow:var(--sh5);animation:slideUp .25s cubic-bezier(.4,0,.2,1);
+  max-height:90vh;overflow-y:auto;
+}
+.modal-box.wide{width:540px}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.modal-hd h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;letter-spacing:-.02em}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-3);line-height:1;transition:color var(--t);padding:2px}
+.modal-close:hover{color:var(--text-1)}
+.modal-footer{display:flex;gap:8px;margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--border)}
+.modal-footer button{flex:1;padding:10px;border-radius:var(--r-md);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.m-cancel{background:var(--surface);border:1px solid var(--border-md);color:var(--text-2);transition:background var(--t)}
+.m-cancel:hover{background:var(--surface2)}
+.m-save{background:var(--accent);border:none;color:#fff;font-weight:500;transition:background var(--t);box-shadow:0 2px 8px var(--accent-glow)}
+.m-save:hover{background:var(--accent-hover)}
+
+/* Form controls */
+.f-group{margin-bottom:1rem}
+.f-label{font-size:11px;font-weight:500;color:var(--text-3);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.7px}
+.f-input,.f-select,.f-textarea{
+  width:100%;border:1.5px solid var(--border-md);border-radius:var(--r-md);
+  padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;
+  background:var(--bg);color:var(--text-1);outline:none;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.f-input:focus,.f-select:focus,.f-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.f-textarea{resize:vertical;min-height:70px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f-readonly{background:var(--surface2);color:var(--accent);font-weight:500}
+
+/* AI prefill box */
+.ai-prefill{
+  background:linear-gradient(135deg,var(--accent-light),#FEF3E0);
+  border:1px solid rgba(200,120,42,0.22);border-radius:var(--r-md);
+  padding:9px 12px;font-size:12px;color:var(--text-2);
+  display:flex;gap:9px;align-items:flex-start;margin-bottom:1.1rem;
+}
+
+/* Coll modal */
+.coll-opts{display:flex;flex-direction:column;gap:6px;margin-bottom:1.1rem}
+.coll-opt{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;
+  transition:background var(--t),border-color var(--t);
+}
+.coll-opt:hover{background:var(--accent-light);border-color:rgba(139,58,16,0.25)}
+.coll-opt.sel{background:var(--accent-light);border-color:var(--accent)}
+.coll-opt-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.coll-opt-info{flex:1}.coll-opt-info strong{font-size:13px;font-weight:500;display:block;margin-bottom:1px}.coll-opt-info span{font-size:11px;color:var(--text-3)}
+.coll-opt.sel .coll-opt-info strong{color:var(--accent)}
+.coll-check{font-size:17px;color:var(--accent)}
+.new-coll-row{display:flex;gap:8px;margin-top:4px}
+.new-coll-btn{
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-md);
+  padding:8px 14px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  white-space:nowrap;transition:background var(--t);
+}
+.new-coll-btn:hover{background:var(--accent-hover)}
+
+/* Invite role options */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 1rem}
+.role-opt{
+  border:1.5px solid var(--border);border-radius:var(--r-md);padding:10px 12px;
+  cursor:pointer;transition:border-color var(--t),background var(--t);
+}
+.role-opt:hover{background:var(--surface2)}
+.role-opt.sel{border-color:var(--accent);background:var(--accent-light)}
+.role-opt strong{font-size:13px;font-weight:500;display:block;margin-bottom:2px}
+.role-opt.sel strong{color:var(--accent)}
+.role-opt p{font-size:11px;color:var(--text-3);line-height:1.4}
+
+/* Edit user */
+.edit-profile{
+  display:flex;align-items:center;gap:13px;padding:13px;
+  background:var(--gray-bg);border-radius:var(--r-md);margin-bottom:1.25rem;
+}
+.edit-perms{display:flex;flex-direction:column;gap:8px;margin:8px 0 1.1rem}
+.perm-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);
+}
+.perm-row-lbl{font-size:13px;color:var(--text-2)}
+.perm-row-lbl span{font-size:11px;color:var(--text-3);display:block;margin-top:1px}
+.toggle{width:38px;height:22px;border-radius:var(--r-full);position:relative;cursor:pointer;transition:background var(--t-slow);flex-shrink:0}
+.toggle.on{background:var(--green)}.toggle.off{background:var(--border-md)}
+.knob{position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:left var(--t-slow)}
+.toggle.on .knob{left:19px}.toggle.off .knob{left:3px}
+.danger-z{border:1px solid rgba(140,32,32,0.22);border-radius:var(--r-md);padding:12px 14px;background:rgba(252,234,234,0.5)}
+.danger-z p{font-size:12px;color:var(--red);margin-bottom:8px}
+.dz-btns{display:flex;gap:8px}
+.dz-btn{
+  background:none;border:1px solid rgba(140,32,32,0.35);border-radius:var(--r-sm);
+  padding:6px 12px;font-size:12px;color:var(--red);cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:background var(--t);
+}
+.dz-btn:hover{background:rgba(140,32,32,0.1)}
+
+/* Acq modal */
+.drop-area{
+  border:1.5px dashed var(--border-md);border-radius:var(--r-md);
+  padding:14px;text-align:center;cursor:pointer;font-size:13px;color:var(--text-3);
+  transition:background var(--t);
+}
+.drop-area:hover{background:var(--surface2)}
+
+/* ─── TOAST ───────────────────────────────────────── */
+.toast{
+  position:fixed;bottom:56px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:var(--text-1);color:#fff;border-radius:var(--r-lg);
+  padding:10px 20px;font-size:13px;z-index:400;
+  opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;
+  box-shadow:var(--sh4);white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ─── BOTTOM NAV (prototype indicator) ───────────── */
+.proto-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(24,20,14,0.95);backdrop-filter:blur(8px);
+  color:#fff;padding:7px 1.5rem;display:flex;gap:5px;align-items:center;z-index:200;flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.proto-nav span{font-size:10px;color:rgba(255,255,255,0.4);margin-right:6px;letter-spacing:.6px;text-transform:uppercase}
+.pn-btn{
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.75);border-radius:var(--r-sm);
+  padding:4px 11px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:background .15s,color .15s;
+}
+.pn-btn:hover{background:rgba(255,255,255,0.14);color:#fff}
+.pn-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ─── MISC ────────────────────────────────────────── */
+.divider{border:none;border-top:1px solid var(--border);margin:1.1rem 0}
+@media(max-width:900px){
+  .feat-grid,.artist-grid{grid-template-columns:1fr 1fr}
+  .results-grid,.works-grid,.coll-grid{grid-template-columns:1fr 1fr}
+  .two-col,.acq-layout,.adm-layout,.colls-layout,.work-layout{grid-template-columns:1fr}
+  .artist-hd-inner{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 1 · HOME
+══════════════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+<div class="screen-label"><strong>Tela 1</strong> · Página Inicial — Busca Semântica Inteligente</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link active" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link" onclick="goto('artist')">Artistas</span>
+    <span class="nav-link" onclick="goto('collections')">Coleções</span>
+    <span class="nav-link" onclick="goto('acquisition')">Aquisições IA</span>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-ai" onclick="goto('ai')">✦ Assistente IA</button>
+    <div class="nav-user-chip" onclick="goto('admin')">
+      <div class="nav-user-av">RS</div>
+      <div><div class="nav-user-name">Ricardo Santana</div><div class="nav-user-role">Administrador</div></div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">✦ Centro de Memória Digital · Pinacoteca do Estado de São Paulo</div>
+  <h1>Explore a arte brasileira com <em>inteligência semântica</em></h1>
+  <p class="hero-sub">Busque obras, artistas e movimentos por contexto e significado — não apenas palavras-chave. Mais de 100.000 itens indexados com IA.</p>
+  <div class="search-wrap">
+    <input class="search-input" id="homeSearch" type="text"
+      placeholder='Tente: "abstração brasileira anos 50" ou "Fayga Ostrower xilogravura"'
+      onkeydown="if(event.key==='Enter')goto('results')">
+    <button class="search-go" onclick="goto('results')">→</button>
+  </div>
+  <div class="chips">
+    <span class="chip" onclick="goto('results')">Fayga Ostrower</span>
+    <span class="chip" onclick="goto('results')">Tarsila do Amaral</span>
+    <span class="chip" onclick="goto('results')">Gravura abstrata</span>
+    <span class="chip" onclick="goto('results')">Modernismo brasileiro</span>
+    <span class="chip" onclick="goto('results')">Séc. XX</span>
+    <span class="chip" onclick="goto('results')">Ver acervo completo</span>
+  </div>
+</div>
+
+<div class="home-body">
+  <div class="feat-grid">
+    <div class="feat-card" onclick="goto('ai')">
+      <div class="feat-icon">✦</div>
+      <h3>Assistente IA <span class="feat-badge">Novo</span></h3>
+      <p>Converse em linguagem natural sobre o acervo. Respostas baseadas em fontes verificadas via RAG.</p>
+    </div>
+    <div class="feat-card" onclick="goto('results')">
+      <div class="feat-icon" style="font-size:18px;">🔎</div>
+      <h3>Busca Semântica</h3>
+      <p>Entende o contexto da sua pesquisa e conecta obras e artistas relacionados automaticamente.</p>
+    </div>
+    <div class="feat-card" onclick="goto('artist')">
+      <div class="feat-icon" style="font-size:18px;">👤</div>
+      <h3>Perfis Integrados</h3>
+      <p>Biografias enriquecidas com cronologia, obras, documentos, conexões semânticas e análise da IA.</p>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Artistas em Destaque</h2>
+  <p class="sec-sub">Curadoria baseada em relevância histórica e interesse de pesquisa recente</p>
+  <div class="artist-grid">
+    <div class="artist-card" onclick="goto('artist')">
+      <div class="artist-thumb" style="background:linear-gradient(145deg,#C8813A,#8B3A10);">F</div>
+      <div class="artist-card-body"><h4>Fayga Ostrower</h4><p>1920–2001 · Gravura, Pintura</p></div>
+    </div>
+    <div class="artist-card">
+      <div class="artist-thumb" style="background:linear-gradient(145deg,#3D7A52,#1E4D30);">T</div>
+      <div class="artist-card-body"><h4>Tarsila do Amaral</h4><p>1886–1973 · Pintura</p></div>
+    </div>
+    <div class="artist-card">
+      <div class="artist-thumb" style="background:linear-gradient(145deg,#2B4C7E,#162A50);">C</div>
+      <div class="artist-card-body"><h4>Cândido Portinari</h4><p>1903–1962 · Pintura, Mural</p></div>
+    </div>
+    <div class="artist-card">
+      <div class="artist-thumb" style="background:linear-gradient(145deg,#6B4226,#3D2010);">L</div>
+      <div class="artist-card-body"><h4>Lygia Clark</h4><p>1920–1988 · Arte Concreta</p></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 2 · RESULTS
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+<div class="screen-label"><strong>Tela 2</strong> · Resultados de Busca — Filtros e Acervo</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link active" onclick="goto('results')">Acervo</span>
+    <span class="nav-link" onclick="goto('artist')">Artistas</span>
+    <span class="nav-link" onclick="goto('collections')">Coleções</span>
+  </div>
+  <div class="nav-actions"><button class="btn-ai" onclick="goto('ai')">✦ Assistente IA</button></div>
+</nav>
+<div class="breadcrumb"><span class="bc-link" onclick="goto('home')">Início</span><span class="bc-sep">›</span><span class="bc-link" onclick="goto('results')">Acervo</span><span class="bc-sep">›</span>Busca: "Fayga Ostrower"</div>
+
+<div class="results-layout" style="flex:1;">
+  <div class="filters-panel">
+    <div class="fp-title">Filtros ativos</div>
+    <div style="margin-bottom:1rem"><span class="active-filter">Fayga Ostrower ×</span></div>
+    <div class="filter-group">
+      <div class="filter-group-title">Tipo de Obra <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox" checked> Gravura <span class="filter-count">87</span></label>
+      <label class="filter-option"><input type="checkbox" checked> Pintura <span class="filter-count">24</span></label>
+      <label class="filter-option"><input type="checkbox"> Desenho <span class="filter-count">12</span></label>
+      <label class="filter-option"><input type="checkbox"> Aquarela <span class="filter-count">10</span></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Período <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox"> Antes de 1950 <span class="filter-count">8</span></label>
+      <label class="filter-option"><input type="checkbox" checked> 1950–1969 <span class="filter-count">41</span></label>
+      <label class="filter-option"><input type="checkbox"> 1970–1989 <span class="filter-count">52</span></label>
+      <label class="filter-option"><input type="checkbox"> Após 1990 <span class="filter-count">32</span></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Movimento <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox" checked> Abstracionismo <span class="filter-count">76</span></label>
+      <label class="filter-option"><input type="checkbox"> Arte Concreta <span class="filter-count">18</span></label>
+      <label class="filter-option"><input type="checkbox"> Expressionismo <span class="filter-count">9</span></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Técnica <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox" checked> Xilogravura <span class="filter-count">34</span></label>
+      <label class="filter-option"><input type="checkbox"> Litografia <span class="filter-count">28</span></label>
+      <label class="filter-option"><input type="checkbox"> Serigrafia <span class="filter-count">15</span></label>
+    </div>
+  </div>
+
+  <div class="results-main">
+    <div class="results-hd">
+      <div>
+        <h2>Resultados para "Fayga Ostrower"</h2>
+        <div class="results-meta">133 obras encontradas · Busca semântica ativa</div>
+      </div>
+      <div class="results-controls">
+        <select class="sort-select"><option>Mais relevante</option><option>Mais recente</option><option>Mais antigo</option><option>A–Z</option></select>
+        <div class="view-btns"><div class="vbtn active">⊞</div><div class="vbtn">≡</div></div>
+      </div>
+    </div>
+
+    <div class="ai-banner">
+      <div class="ai-banner-icon">✦</div>
+      <div class="ai-banner-text">
+        <strong>Visão IA:</strong> Fayga Ostrower (1920–2001) é uma das maiores gravadoras do Brasil. O período 1950–1970 marca sua transição decisiva para o abstracionismo lírico — as obras mais valorizadas do acervo.
+        <div class="ai-banner-pills">
+          <span class="ai-pill">133 obras no acervo</span>
+          <span class="ai-pill" onclick="goto('artist')">Ver perfil completo ↗</span>
+          <span class="ai-pill" onclick="goto('ai')">Perguntar à IA ↗</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-grid">
+      <div class="result-card" onclick="goto('work')">
+        <div class="result-thumb"><div class="result-thumb-art art-fayga1"></div><span class="rt-badge">Xilogravura</span><button class="rt-save" onclick="event.stopPropagation();openSaveModal()">🗂</button></div>
+        <div class="result-body"><h4>Composição Abstrata em Vermelho</h4><div class="result-artist">Fayga Ostrower</div><div class="result-tags"><span class="rt-tag">1958</span><span class="rt-tag">35×50 cm</span><span class="rt-tag">Abstracionismo</span></div></div>
+      </div>
+      <div class="result-card" onclick="goto('work')">
+        <div class="result-thumb"><div class="result-thumb-art art-fayga2"></div><span class="rt-badge">Litografia</span><button class="rt-save" onclick="event.stopPropagation();openSaveModal()">🗂</button></div>
+        <div class="result-body"><h4>Azul Profundo n.º 7</h4><div class="result-artist">Fayga Ostrower</div><div class="result-tags"><span class="rt-tag">1972</span><span class="rt-tag">50×70 cm</span><span class="rt-tag">Lirismo</span></div></div>
+      </div>
+      <div class="result-card" onclick="goto('work')">
+        <div class="result-thumb"><div class="result-thumb-art art-fayga3"></div><span class="rt-badge">Gravura</span><button class="rt-save" onclick="event.stopPropagation();openSaveModal()">🗂</button></div>
+        <div class="result-body"><h4>Formas em Equilíbrio</h4><div class="result-artist">Fayga Ostrower</div><div class="result-tags"><span class="rt-tag">1963</span><span class="rt-tag">45×60 cm</span><span class="rt-tag">Concretismo</span></div></div>
+      </div>
+      <div class="result-card" onclick="goto('work')">
+        <div class="result-thumb"><div class="result-thumb-art art-portinari"></div><span class="rt-badge">Óleo</span><button class="rt-save" onclick="event.stopPropagation();openSaveModal()">🗂</button></div>
+        <div class="result-body"><h4>Tensão Cromática</h4><div class="result-artist">Fayga Ostrower</div><div class="result-tags"><span class="rt-tag">1965</span><span class="rt-tag">60×80 cm</span><span class="rt-tag">Abstracionismo</span></div></div>
+      </div>
+      <div class="result-card" onclick="goto('work')">
+        <div class="result-thumb"><div class="result-thumb-art art-lygia"></div><span class="rt-badge">Serigrafia</span><button class="rt-save" onclick="event.stopPropagation();openSaveModal()">🗂</button></div>
+        <div class="result-body"><h4>Movimento Circular</h4><div class="result-artist">Fayga Ostrower</div><div class="result-tags"><span class="rt-tag">1975</span><span class="rt-tag">50×50 cm</span><span class="rt-tag">Geométrico</span></div></div>
+      </div>
+      <div class="result-card" onclick="goto('work')">
+        <div class="result-thumb"><div class="result-thumb-art art-serie"></div><span class="rt-badge">Aquarela</span><button class="rt-save" onclick="event.stopPropagation();openSaveModal()">🗂</button></div>
+        <div class="result-body"><h4>Série das Raízes II</h4><div class="result-artist">Fayga Ostrower</div><div class="result-tags"><span class="rt-tag">1980</span><span class="rt-tag">40×55 cm</span><span class="rt-tag">Orgânico</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 3 · ARTIST
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-artist">
+<div class="screen-label"><strong>Tela 3</strong> · Perfil Integrado do Artista</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link active">Artistas</span>
+    <span class="nav-link" onclick="goto('collections')">Coleções</span>
+  </div>
+  <div class="nav-actions"><button class="btn-ai" onclick="goto('ai')">✦ Assistente IA</button></div>
+</nav>
+<div class="breadcrumb"><span class="bc-link" onclick="goto('home')">Início</span><span class="bc-sep">›</span><span class="bc-link" onclick="goto('results')">Artistas</span><span class="bc-sep">›</span>Fayga Ostrower</div>
+
+<div class="artist-hd">
+  <div class="artist-hd-inner">
+    <div class="artist-portrait">👩‍🎨</div>
+    <div>
+      <h1>Fayga Ostrower</h1>
+      <div class="artist-dates">Bialystok, Polônia · 1920 — Rio de Janeiro, Brasil · 2001</div>
+      <div class="artist-tags">
+        <span class="a-tag">Gravura</span><span class="a-tag">Pintura</span>
+        <span class="a-tag">Abstracionismo</span><span class="a-tag">Arte Brasileira</span><span class="a-tag">Séc. XX</span>
+      </div>
+      <p class="artist-bio">Artista plástica, gravadora e teórica de arte, Fayga Ostrower é uma das figuras mais marcantes da arte brasileira do século XX. Imigrou ao Brasil em 1934 e desenvolveu aqui sua carreira, tornando-se referência no abstracionismo lírico e na gravura. Recebeu o Grande Prêmio de Gravura na Bienal de Veneza em 1958.</p>
+      <div class="artist-stats">
+        <div class="as-item"><div class="as-val">133</div><div class="as-lbl">obras no acervo</div></div>
+        <div class="as-item"><div class="as-val">1958</div><div class="as-lbl">Grande Prêmio Veneza</div></div>
+        <div class="as-item"><div class="as-val">4</div><div class="as-lbl">livros publicados</div></div>
+        <div class="as-item"><div class="as-val">67</div><div class="as-lbl">anos de carreira</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div class="tabs">
+      <div class="tab active" onclick="setTab(this,'tab-bio')">Biografia</div>
+      <div class="tab" onclick="setTab(this,'tab-works')">Obras (133)</div>
+      <div class="tab" onclick="setTab(this,'tab-docs')">Documentos</div>
+    </div>
+  </div>
+</div>
+
+<div class="artist-body">
+  <div id="tab-bio">
+    <div class="two-col">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1920</div><div class="tl-title">Nascimento em Bialystok, Polônia</div><div class="tl-desc">Nasce Fayga Perla Ostrower, filha de família judaica.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1934</div><div class="tl-title">Imigração ao Brasil</div><div class="tl-desc">A família se instala no Rio de Janeiro fugindo da perseguição nazista.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1940–1945</div><div class="tl-title">Formação no ENBA</div><div class="tl-desc">Estuda na Escola Nacional de Belas Artes. Workshops com Portinari e Roberto De Lamonica.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1954</div><div class="tl-title">Transição para o Abstracionismo</div><div class="tl-desc">Abandona a figuração e mergulha no abstracionismo lírico que marcará toda a obra subsequente.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1958</div><div class="tl-title">Grande Prêmio — Bienal de Veneza</div><div class="tl-desc">Reconhecimento internacional máximo para a gravura brasileira do século XX.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1977</div><div class="tl-title">Publicação de "Criatividade e Processos de Criação"</div><div class="tl-desc">Obra teórica seminal adotada em universidades brasileiras.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2001</div><div class="tl-title">Falecimento no Rio de Janeiro</div><div class="tl-desc">Legado de mais de 2.000 obras e quatro livros de teoria da arte.</div></div>
+      </div>
+      <div>
+        <div class="sw">
+          <div class="sw-title">✦ Conexões Semânticas — IA</div>
+          <a class="sw-link"><span class="sw-link-icon">🎨</span>Roberto De Lamonica — Gravura</a>
+          <a class="sw-link"><span class="sw-link-icon">🎨</span>Iberê Camargo — Abstracionismo</a>
+          <a class="sw-link"><span class="sw-link-icon">🎨</span>Lygia Clark — Arte Concreta</a>
+          <a class="sw-link"><span class="sw-link-icon">📍</span>Bienal de São Paulo 1955</a>
+          <a class="sw-link"><span class="sw-link-icon">📚</span>Biblioteca · 4 itens</a>
+          <a class="sw-link"><span class="sw-link-icon">🎬</span>Vídeo documental · 13 min</a>
+        </div>
+        <div class="sw" style="cursor:pointer;" onclick="goto('ai')">
+          <div class="sw-title">✦ Perguntar à IA</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+            <span class="q-chip">Obras mais importantes</span>
+            <span class="q-chip">Influências estéticas</span>
+            <span class="q-chip">Técnicas utilizadas</span>
+            <span class="q-chip">Comparar com Portinari</span>
+          </div>
+          <button class="btn-ai" style="width:100%;justify-content:center;" onclick="goto('ai')">✦ Iniciar conversa sobre Fayga</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-works" style="display:none">
+    <div class="works-grid">
+      <div class="work-mini" onclick="goto('work')"><div class="work-mini-img art-fayga1"></div><div class="work-mini-info"><h5>Composição em Vermelho</h5><p>1958 · Xilogravura</p></div></div>
+      <div class="work-mini" onclick="goto('work')"><div class="work-mini-img art-fayga2"></div><div class="work-mini-info"><h5>Azul Profundo n.º 7</h5><p>1972 · Litografia</p></div></div>
+      <div class="work-mini" onclick="goto('work')"><div class="work-mini-img art-fayga3"></div><div class="work-mini-info"><h5>Formas em Equilíbrio</h5><p>1963 · Gravura</p></div></div>
+    </div>
+  </div>
+  <div id="tab-docs" style="display:none">
+    <div class="sw" style="max-width:600px">
+      <div class="sw-title">Documentos Arquivísticos</div>
+      <a class="sw-link"><span class="sw-link-icon">📄</span>Catálogo da Exposição Bienal de Veneza, 1958</a>
+      <a class="sw-link"><span class="sw-link-icon">📄</span>Carta de Fayga ao MAM, 1961</a>
+      <a class="sw-link"><span class="sw-link-icon">📰</span>Entrevista ao Jornal do Brasil, 1975</a>
+      <a class="sw-link"><span class="sw-link-icon">📚</span>"Criatividade e Processos de Criação" — 1977</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 4 · AI ASSISTANT
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-ai">
+<div class="screen-label"><strong>Tela 4</strong> · Assistente IA — Interface Conversacional com RAG</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link" onclick="goto('artist')">Artistas</span>
+  </div>
+  <div class="nav-actions"><button class="btn-ai" style="background:var(--accent-hover)">✦ Assistente IA</button></div>
+</nav>
+
+<div class="ai-screen">
+  <div class="ai-header">
+    <div class="ai-av">✦</div>
+    <div>
+      <div class="ai-hd-name">Assistente do Acervo</div>
+      <div class="ai-hd-sub">Powered by RAG · Fontes: Acervo, Biblioteca, Documentos históricos</div>
+    </div>
+    <div class="ai-online">Online</div>
+  </div>
+
+  <div class="ai-msgs" id="msgList">
+    <div class="msg">
+      <div class="msg-av ai">✦</div>
+      <div class="msg-bubble">
+        <p>Olá! Sou o Assistente do Acervo da Pinacoteca. Entendo perguntas em linguagem natural e busco respostas diretamente nas fontes do acervo — diferente de um menu fixo.</p>
+        <div class="sugg-btns">
+          <button class="sugg-btn" onclick="sendMsg(this)">Obras mais importantes de Fayga?</button>
+          <button class="sugg-btn" onclick="sendMsg(this)">Como era o abstracionismo nos anos 50?</button>
+          <button class="sugg-btn" onclick="sendMsg(this)">Obras ligadas à Bienal de Veneza 1958</button>
+        </div>
+      </div>
+    </div>
+    <div class="msg user">
+      <div class="msg-av user">U</div>
+      <div class="msg-bubble">Quais são as obras mais destacadas de Fayga Ostrower e qual foi sua formação e atuação no cenário brasileiro?</div>
+    </div>
+    <div class="msg">
+      <div class="msg-av ai">✦</div>
+      <div class="msg-bubble">
+        <p><strong>Fayga Ostrower</strong> é reconhecida como uma das maiores gravadoras do Brasil. Nascida na Polônia (1920), imigrou ao Brasil em 1934.</p>
+        <p><strong>Formação:</strong> Estudou na Escola Nacional de Belas Artes (Rio de Janeiro), desenvolvendo habilidade técnica excepcional em gravura com Roberto De Lamonica.</p>
+        <p><strong>Obras em destaque no acervo:</strong></p>
+        <ul>
+          <li><em>Composição Abstrata em Vermelho</em> (1958) — marca sua fase abstracionista</li>
+          <li><em>Série Azul Profundo</em> (1972) — litografias de grande apelo cromático</li>
+          <li><em>Formas em Equilíbrio</em> (1963) — referência do concretismo brasileiro</li>
+        </ul>
+        <p>Sua maior conquista foi o <strong>Grande Prêmio de Gravura na Bienal de Veneza (1958)</strong>.</p>
+        <div class="src-pills">
+          <span class="src-pill" onclick="goto('work')">→ Composição em Vermelho</span>
+          <span class="src-pill" onclick="goto('artist')">→ Perfil completo</span>
+          <span class="src-pill">→ Bienal de Veneza 1958</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:800px;width:100%;margin:0 auto;padding:0 2rem;">
+    <div class="ai-ctx-bar">
+      <span>Contexto ativo:</span> Fayga Ostrower · 133 obras · 4 documentos
+      <button onclick="this.parentElement.style.display='none'">×</button>
+    </div>
+    <div class="ai-q-chips">
+      <span class="q-chip" onclick="setAiInput(this)">Artistas relacionados</span>
+      <span class="q-chip" onclick="setAiInput(this)">Técnicas de gravura</span>
+      <span class="q-chip" onclick="setAiInput(this)">Bienal de Veneza</span>
+      <span class="q-chip" onclick="setAiInput(this)">Resumo da carreira</span>
+    </div>
+  </div>
+  <div class="ai-input-wrap">
+    <div class="ai-row">
+      <textarea class="ai-ta" id="aiInput" rows="1"
+        placeholder="Pergunte sobre obras, artistas, períodos históricos..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCustomMsg();}"></textarea>
+      <button class="ai-send" onclick="sendCustomMsg()">↑</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 5 · WORK DETAIL
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-work">
+<div class="screen-label"><strong>Tela 5</strong> · Detalhe da Obra — Metadados e Contexto Semântico</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link" onclick="goto('artist')">Artistas</span>
+    <span class="nav-link" onclick="goto('collections')">Coleções</span>
+  </div>
+  <div class="nav-actions"><button class="btn-ai" onclick="goto('ai')">✦ Assistente IA</button></div>
+</nav>
+<div class="breadcrumb"><span class="bc-link" onclick="goto('home')">Início</span><span class="bc-sep">›</span><span class="bc-link" onclick="goto('results')">Acervo</span><span class="bc-sep">›</span><span class="bc-link" onclick="goto('artist')">Fayga Ostrower</span><span class="bc-sep">›</span>Composição Abstrata em Vermelho</div>
+
+<div class="work-layout" style="flex:1;">
+  <div class="work-viewer">
+    <div class="work-viewer-art art-fayga1"></div>
+    <div class="work-viewer-caption">Composição Abstrata em Vermelho · Fayga Ostrower · 1958</div>
+    <div class="viewer-ctrl">
+      <button class="vc-btn">⊕ Ampliar</button>
+      <button class="vc-btn">↔ Comparar</button>
+      <button class="vc-btn">⬇ Download</button>
+    </div>
+  </div>
+  <div class="work-info">
+    <h2>Composição Abstrata em Vermelho</h2>
+    <span class="work-artist-link" onclick="goto('artist')">Fayga Ostrower · 1920–2001</span>
+
+    <div class="ai-insight-box">
+      <div class="ai-insight-lbl">✦ Contexto IA</div>
+      <p>Esta xilogravura de 1958 marca a plena maturidade abstracionista de Fayga, no mesmo ano do seu Grande Prêmio em Veneza. A tensão entre o vermelho vibrante e as formas orgânicas é característica da síntese entre emoção e rigor formal.</p>
+    </div>
+
+    <table class="meta-tbl">
+      <tr><td>Título</td><td>Composição Abstrata em Vermelho</td></tr>
+      <tr><td>Artista</td><td>Fayga Ostrower</td></tr>
+      <tr><td>Ano</td><td>1958</td></tr>
+      <tr><td>Técnica</td><td>Xilogravura</td></tr>
+      <tr><td>Dimensões</td><td>35 × 50 cm</td></tr>
+      <tr><td>Suporte</td><td>Papel Japonês</td></tr>
+      <tr><td>Inventário</td><td>PIN_103524</td></tr>
+      <tr><td>Aquisição</td><td>Doação do artista, 1960</td></tr>
+    </table>
+
+    <hr class="divider">
+    <div class="info-sec-lbl">Termos Semânticos</div>
+    <div class="sem-tags">
+      <span class="sem-tag">Abstracionismo</span><span class="sem-tag">Gravura</span>
+      <span class="sem-tag">Arte Brasileira</span><span class="sem-tag">Séc. XX</span>
+      <span class="sem-tag">Xilogravura</span><span class="sem-tag">Cromático</span>
+      <span class="sem-tag">Orgânico</span><span class="sem-tag">Bienal 1958</span>
+    </div>
+
+    <hr class="divider">
+    <div class="info-sec-lbl">Dublin Core</div>
+    <table class="meta-tbl">
+      <tr><td>dc:subject</td><td>Arte brasileira; Gravura; Abstracionismo</td></tr>
+      <tr><td>dc:coverage</td><td>Brasil; São Paulo; Século XX</td></tr>
+      <tr><td>dc:rights</td><td>Reprodução autorizada para fins educacionais</td></tr>
+    </table>
+
+    <hr class="divider">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn-primary" onclick="goto('ai')">✦ Perguntar à IA sobre esta obra</button>
+      <button class="btn-secondary" onclick="openSaveModal()" style="display:flex;align-items:center;justify-content:center;gap:7px;">🗂 Salvar na coleção</button>
+      <button class="btn-secondary" onclick="goto('results')">← Voltar ao acervo</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 6 · COLLECTIONS (T04 · RF03)
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-collections">
+<div class="screen-label"><strong>Tela 6</strong> · T04 — Criação e Gestão de Coleções Pessoais (RF03)</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link active">Coleções</span>
+    <span class="nav-link" onclick="goto('acquisition')">Aquisições IA</span>
+  </div>
+  <div class="nav-actions"><button class="btn-ai" onclick="goto('ai')">✦ Assistente IA</button></div>
+</nav>
+<div class="breadcrumb"><span class="bc-link" onclick="goto('home')">Início</span><span class="bc-sep">›</span>Minhas Coleções</div>
+
+<div class="colls-layout" style="flex:1;">
+  <div class="colls-sidebar">
+    <div class="cs-title">Minhas Coleções</div>
+    <div class="cs-item active" onclick="selectColl(this,'Abstracionismo Brasileiro')">
+      <div class="cs-dot" style="background:#8B3A10;"></div><span class="cs-name">Abstracionismo Brasileiro</span><span class="cs-count">7</span>
+    </div>
+    <div class="cs-item" onclick="selectColl(this,'Gravura Séc. XX')">
+      <div class="cs-dot" style="background:#2B4C7E;"></div><span class="cs-name">Gravura Séc. XX</span><span class="cs-count">4</span>
+    </div>
+    <div class="cs-item" onclick="selectColl(this,'Modernismo Paulista')">
+      <div class="cs-dot" style="background:#1E5C3C;"></div><span class="cs-name">Modernismo Paulista</span><span class="cs-count">12</span>
+    </div>
+    <div class="cs-item" onclick="selectColl(this,'Pesquisa Mestrado')">
+      <div class="cs-dot" style="background:#6B4226;"></div><span class="cs-name">Pesquisa Mestrado</span><span class="cs-count">3</span>
+    </div>
+    <div class="cs-new" onclick="openSaveModal()">+ Nova coleção</div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">
+    <div class="cs-title" style="margin-top:4px;">Compartilhadas comigo</div>
+    <div class="cs-item" onclick="selectColl(this,'Arte Concreta – Prof. Ana')">
+      <div class="cs-dot" style="background:#8A7D6E;"></div><span class="cs-name" style="color:var(--text-3);">Arte Concreta – Prof. Ana</span><span class="cs-count">9</span>
+    </div>
+  </div>
+
+  <div class="colls-main">
+    <div class="coll-hd">
+      <div><h2 id="collTitle">Abstracionismo Brasileiro</h2><p id="collDesc">Obras selecionadas para pesquisa sobre o movimento abstracionista no Brasil (1940–1980).</p></div>
+      <div class="coll-actions">
+        <button class="ca-btn" onclick="showToast('Link copiado!')">↗ Compartilhar</button>
+        <button class="ca-btn" onclick="showToast('Exportando como PDF...')">⬇ Exportar</button>
+        <button class="ca-btn primary" onclick="goto('results')">+ Adicionar obras</button>
+      </div>
+    </div>
+    <div class="coll-meta">
+      <div class="cm-item">🗂 <strong id="collCount">7</strong> obras</div>
+      <div class="cm-div"></div>
+      <div class="cm-item">📅 Criada em <strong>10 fev 2025</strong></div>
+      <div class="cm-div"></div>
+      <div class="cm-item">🔒 <strong>Privada</strong> <span style="font-size:11px;color:var(--accent);cursor:pointer;margin-left:4px;" onclick="showToast('Visibilidade atualizada!')">alterar</span></div>
+    </div>
+    <div class="coll-grid" id="collGrid">
+      <div class="coll-card" onclick="goto('work')">
+        <button class="cc-remove" onclick="event.stopPropagation();removeItem(this)">×</button>
+        <div class="cc-thumb art-fayga1"></div>
+        <div class="cc-body"><h4>Composição Abstrata em Vermelho</h4><div class="cc-artist">Fayga Ostrower · 1958</div><div class="cc-note">Obra-chave da transição abstracionista. Usar na seção 3 da dissertação.</div><div class="cc-add-note" onclick="event.stopPropagation();editNote(this)">✏️ Editar anotação</div></div>
+      </div>
+      <div class="coll-card" onclick="goto('work')">
+        <button class="cc-remove" onclick="event.stopPropagation();removeItem(this)">×</button>
+        <div class="cc-thumb art-fayga2"></div>
+        <div class="cc-body"><h4>Azul Profundo n.º 7</h4><div class="cc-artist">Fayga Ostrower · 1972</div><div class="cc-add-note" onclick="event.stopPropagation();addNote(this)">+ Adicionar anotação</div></div>
+      </div>
+      <div class="coll-card" onclick="goto('work')">
+        <button class="cc-remove" onclick="event.stopPropagation();removeItem(this)">×</button>
+        <div class="cc-thumb art-fayga3"></div>
+        <div class="cc-body"><h4>Formas em Equilíbrio</h4><div class="cc-artist">Fayga Ostrower · 1963</div><div class="cc-note">Comparar com Lygia Clark.</div><div class="cc-add-note" onclick="event.stopPropagation();editNote(this)">✏️ Editar anotação</div></div>
+      </div>
+      <div class="coll-card" onclick="goto('work')">
+        <button class="cc-remove" onclick="event.stopPropagation();removeItem(this)">×</button>
+        <div class="cc-thumb art-portinari"></div>
+        <div class="cc-body"><h4>Tensão Cromática</h4><div class="cc-artist">Fayga Ostrower · 1965</div><div class="cc-add-note" onclick="event.stopPropagation();addNote(this)">+ Adicionar anotação</div></div>
+      </div>
+      <div class="coll-card" onclick="goto('work')">
+        <button class="cc-remove" onclick="event.stopPropagation();removeItem(this)">×</button>
+        <div class="cc-thumb art-camargo"></div>
+        <div class="cc-body"><h4>Estudo em Ocre</h4><div class="cc-artist">Iberê Camargo · 1961</div><div class="cc-add-note" onclick="event.stopPropagation();addNote(this)">+ Adicionar anotação</div></div>
+      </div>
+      <div class="cc-placeholder" onclick="goto('results')"><span>+</span><p>Adicionar obras</p></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 7 · ACQUISITION (T06)
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-acquisition">
+<div class="screen-label"><strong>Tela 7</strong> · T06 — Solicitação de Aquisição por Análise Preditiva</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link" onclick="goto('collections')">Coleções</span>
+    <span class="nav-link active">Aquisições IA</span>
+  </div>
+  <div class="nav-actions"><button class="btn-ai" onclick="goto('ai')">✦ Assistente IA</button></div>
+</nav>
+<div class="breadcrumb"><span class="bc-link" onclick="goto('home')">Início</span><span class="bc-sep">›</span>Análise Preditiva › Solicitações de Aquisição</div>
+
+<div class="acq-layout" style="flex:1;">
+  <div class="acq-filters">
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-3);margin-bottom:1rem;">Filtrar sugestões</div>
+    <div class="filter-group">
+      <div class="filter-group-title">Prioridade <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox" checked> Urgente <span class="filter-count">3</span></label>
+      <label class="filter-option"><input type="checkbox" checked> Alta <span class="filter-count">7</span></label>
+      <label class="filter-option"><input type="checkbox"> Média <span class="filter-count">12</span></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Movimento <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox" checked> Abstracionismo <span class="filter-count">9</span></label>
+      <label class="filter-option"><input type="checkbox" checked> Modernismo <span class="filter-count">6</span></label>
+      <label class="filter-option"><input type="checkbox"> Arte Concreta <span class="filter-count">4</span></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Tipo de lacuna <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox" checked> Artista ausente <span class="filter-count">8</span></label>
+      <label class="filter-option"><input type="checkbox" checked> Período descoberto <span class="filter-count">6</span></label>
+      <label class="filter-option"><input type="checkbox"> Alta demanda <span class="filter-count">12</span></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Valor estimado <span>▾</span></div>
+      <label class="filter-option"><input type="checkbox"> Até R$ 50 mil <span class="filter-count">7</span></label>
+      <label class="filter-option"><input type="checkbox" checked> R$ 50–200 mil <span class="filter-count">9</span></label>
+      <label class="filter-option"><input type="checkbox"> R$ 200–500 mil <span class="filter-count">5</span></label>
+    </div>
+  </div>
+
+  <div class="acq-main">
+    <div class="acq-stats">
+      <div class="acq-stat hl"><div class="acq-stat-lbl">Lacunas detectadas</div><div class="acq-stat-val">30</div><div class="acq-stat-sub">↑ 4 novas este mês</div></div>
+      <div class="acq-stat"><div class="acq-stat-lbl">Sugestões pendentes</div><div class="acq-stat-val">10</div><div class="acq-stat-sub">Alta ou urgente prioridade</div></div>
+      <div class="acq-stat"><div class="acq-stat-lbl">Solicitações enviadas</div><div class="acq-stat-val">5</div><div class="acq-stat-sub">3 em análise · 2 aprovadas</div></div>
+      <div class="acq-stat"><div class="acq-stat-lbl">Score do acervo</div><div class="acq-stat-val">74<span style="font-size:13px;font-weight:400;color:var(--text-3);">/100</span></div><div class="acq-stat-sub">↑ +3 pontos no trimestre</div></div>
+    </div>
+
+    <div class="acq-ai-banner">
+      <div class="ai-banner-icon">✦</div>
+      <div style="font-size:13px;color:var(--text-2);line-height:1.55;">
+        <strong style="color:var(--text-1);">Análise preditiva da IA:</strong> A demanda por obras do <strong>abstracionismo brasileiro (1950–1970)</strong> cresceu 38% nos últimos 6 meses. O acervo possui <strong>lacuna crítica</strong> em gravuras de Iberê Camargo e obras figurativas de Di Cavalcanti deste período.
+      </div>
+    </div>
+
+    <div class="acq-tabs">
+      <div class="acq-tab active" onclick="acqTab(this,'acq-sugg')">Sugestões da IA <span class="acq-tab-n">10</span></div>
+      <div class="acq-tab" onclick="acqTab(this,'acq-req')">Minhas Solicitações <span class="acq-tab-n">5</span></div>
+      <div class="acq-tab" onclick="acqTab(this,'acq-hist')">Histórico</div>
+    </div>
+
+    <div id="acq-sugg">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <p style="font-size:12px;color:var(--text-3);">10 sugestões ordenadas por score de prioridade</p>
+        <select class="sort-select"><option>Maior prioridade</option><option>Maior demanda</option><option>Menor custo</option></select>
+      </div>
+      <div class="acq-list">
+
+        <div class="acq-card urg">
+          <div class="score-ring">
+            <svg viewBox="0 0 54 54"><circle class="score-track" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="0"/><circle class="score-fill-urg" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="9"/></svg>
+            <div class="score-num urg">94<small>score</small></div>
+          </div>
+          <div class="acq-card-body">
+            <h4>Sem título (Série Carretéis) — c. 1960</h4>
+            <div class="acq-artist">Iberê Camargo · Pintura / Óleo sobre tela</div>
+            <div class="acq-rationale"><span>Lacuna crítica:</span> O período dos Carretéis (1955–1970) está completamente ausente do acervo físico. 47 pesquisas nos últimos 90 dias sem resultado satisfatório.</div>
+            <div class="demand-row"><span class="demand-lbl">Demanda pesquisa</span><div class="demand-track"><div class="demand-fill" style="width:92%;background:var(--accent2)"></div></div><span class="demand-val">92%</span></div>
+            <div class="demand-row"><span class="demand-lbl">Lacuna no acervo</span><div class="demand-track"><div class="demand-fill" style="width:100%;background:var(--accent)"></div></div><span class="demand-val">100%</span></div>
+            <div class="demand-row"><span class="demand-lbl">Relevância hist.</span><div class="demand-track"><div class="demand-fill" style="width:88%;background:var(--green)"></div></div><span class="demand-val">88%</span></div>
+            <div class="acq-tags"><span class="acq-tag gap">Lacuna crítica</span><span class="acq-tag demand">Alta demanda</span><span class="acq-tag">Abstracionismo</span><span class="acq-tag">1955–1970</span><span style="font-size:11px;color:var(--text-3);margin-left:4px;">Est. R$ 180–350 mil</span></div>
+          </div>
+          <div class="acq-card-actions">
+            <span class="pri-badge pri-urg">Urgente</span>
+            <button class="acq-btn-req" onclick="openAcqModal('Iberê Camargo','Sem título (Série Carretéis)','1960','Pintura · Óleo sobre tela','94','R$ 180–350 mil')">Solicitar aquisição</button>
+            <button class="acq-btn-det" onclick="showToast('Abrindo análise detalhada...')">Ver análise completa</button>
+          </div>
+        </div>
+
+        <div class="acq-card high">
+          <div class="score-ring">
+            <svg viewBox="0 0 54 54"><circle class="score-track" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="0"/><circle class="score-fill-high" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="18"/></svg>
+            <div class="score-num high">87<small>score</small></div>
+          </div>
+          <div class="acq-card-body">
+            <h4>Composição — Fase Neoconcreta (c. 1959)</h4>
+            <div class="acq-artist">Lygia Clark · Arte Concreta / Relevo</div>
+            <div class="acq-rationale"><span>Período sub-representado:</span> A fase neoconcreta (1957–1960), de maior interesse acadêmico internacional, não está representada. Tendência de crescimento de 52%.</div>
+            <div class="demand-row"><span class="demand-lbl">Demanda pesquisa</span><div class="demand-track"><div class="demand-fill" style="width:85%;background:var(--blue)"></div></div><span class="demand-val">85%</span></div>
+            <div class="demand-row"><span class="demand-lbl">Tendência ↑</span><div class="demand-track"><div class="demand-fill" style="width:91%;background:var(--green)"></div></div><span class="demand-val">+52%</span></div>
+            <div class="acq-tags"><span class="acq-tag gap">Período ausente</span><span class="acq-tag trend">Tendência crescente</span><span class="acq-tag">Arte Concreta</span><span style="font-size:11px;color:var(--text-3);margin-left:4px;">Est. R$ 250–500 mil</span></div>
+          </div>
+          <div class="acq-card-actions">
+            <span class="pri-badge pri-high">Alta</span>
+            <button class="acq-btn-req" onclick="openAcqModal('Lygia Clark','Composição — Fase Neoconcreta','1959','Arte Concreta · Relevo','87','R$ 250–500 mil')">Solicitar aquisição</button>
+            <button class="acq-btn-det" onclick="showToast('Abrindo análise detalhada...')">Ver análise completa</button>
+          </div>
+        </div>
+
+        <div class="acq-card med">
+          <div class="score-ring">
+            <svg viewBox="0 0 54 54"><circle class="score-track" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="0"/><circle class="score-fill-med" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="46"/></svg>
+            <div class="score-num med">67<small>score</small></div>
+          </div>
+          <div class="acq-card-body">
+            <h4>Gravura Abstrata — Fase Madura (c. 1968)</h4>
+            <div class="acq-artist">Roberto De Lamonica · Gravura / Água-forte</div>
+            <div class="acq-rationale"><span>Técnica sub-representada:</span> 28 co-buscas com Fayga Ostrower onde o pesquisador buscou De Lamonica sem resultado. Fase madura ausente do acervo.</div>
+            <div class="demand-row"><span class="demand-lbl">Co-busca c/ Fayga</span><div class="demand-track"><div class="demand-fill" style="width:74%;background:var(--accent2)"></div></div><span class="demand-val">74%</span></div>
+            <div class="acq-tags"><span class="acq-tag trend">Co-busca detectada</span><span class="acq-tag">Gravura</span><span class="acq-tag">Abstracionismo</span><span style="font-size:11px;color:var(--text-3);margin-left:4px;">Est. R$ 40–90 mil</span></div>
+          </div>
+          <div class="acq-card-actions">
+            <span class="pri-badge pri-med">Média</span>
+            <button class="acq-btn-req" onclick="openAcqModal('Roberto De Lamonica','Gravura Abstrata — Fase Madura','1968','Gravura · Água-forte','67','R$ 40–90 mil')">Solicitar aquisição</button>
+            <button class="acq-btn-det" onclick="showToast('Abrindo análise...')">Ver análise completa</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div id="acq-req" style="display:none">
+      <div class="acq-req-list">
+        <div class="acq-req-card"><span class="req-st st-an">Em análise</span><div class="acq-req-info"><h5>Sem título (Série Carretéis) — Iberê Camargo</h5><p>Score IA: 94 · Est. R$ 180–350 mil</p></div><span class="acq-req-date">15 mar 2026</span></div>
+        <div class="acq-req-card"><span class="req-st st-ap">Aprovada</span><div class="acq-req-info"><h5>Gravura s/ título (1972) — Maria Bonomi</h5><p>Processo de aquisição iniciado</p></div><span class="acq-req-date">02 fev 2026</span></div>
+        <div class="acq-req-card"><span class="req-st st-an">Em análise</span><div class="acq-req-info"><h5>Composição Concreta (1959) — Lygia Clark</h5><p>Score IA: 87 · Est. R$ 250–500 mil</p></div><span class="acq-req-date">20 mar 2026</span></div>
+        <div class="acq-req-card"><span class="req-st st-pe">Pendente</span><div class="acq-req-info"><h5>Sem título (Guache, 1944) — Portinari</h5><p>Aguardando Conselho de Acervo</p></div><span class="acq-req-date">25 mar 2026</span></div>
+        <div class="acq-req-card"><span class="req-st" style="background:var(--red-bg);color:var(--red);">Recusada</span><div class="acq-req-info"><h5>Paisagem Tropical (1952) — Djanira</h5><p>Fora do escopo orçamentário 2026</p></div><span class="acq-req-date">10 jan 2026</span></div>
+      </div>
+    </div>
+    <div id="acq-hist" style="display:none">
+      <div class="ai-banner"><div class="ai-banner-icon">✦</div><div style="font-size:13px;color:var(--text-2)"><strong style="color:var(--text-1);">Relatório Jan–Mar 2026:</strong> 3 ciclos de análise. 30 lacunas identificadas. 5 solicitações enviadas, 2 aprovadas. Score do acervo: 71 → 74 pontos.</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ SCREEN 8 · ADMIN (T09 · RF06)
+══════════════════════════════════════════ -->
+<div class="screen" id="screen-admin">
+<div class="screen-label"><strong>Tela 8</strong> · T09 — Gerenciamento de Usuários e Permissões (RF06) · Visão: Administrador</div>
+<nav>
+  <a class="nav-logo" onclick="goto('home')"><div class="dot"></div>Pinacoteca <span class="nav-badge">Memória Digital</span></a>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('home')">Início</span>
+    <span class="nav-link" onclick="goto('results')">Acervo</span>
+    <span class="nav-link" onclick="goto('collections')">Coleções</span>
+    <span class="nav-link" onclick="goto('acquisition')">Aquisições IA</span>
+    <span class="nav-link active">Administração</span>
+  </div>
+  <div class="nav-actions">
+    <div class="nav-user-chip">
+      <div class="nav-user-av">MA</div>
+      <div><div class="nav-user-name">Maria A.</div><div class="nav-user-role">Administrador</div></div>
+    </div>
+  </div>
+</nav>
+<div class="breadcrumb"><span class="bc-link" onclick="goto('home')">Início</span><span class="bc-sep">›</span>Administração › Usuários e Permissões</div>
+
+<div class="adm-layout" style="flex:1;">
+  <div class="adm-sidebar">
+    <div class="adm-title">Administração</div>
+    <div class="adm-item active" onclick="admTab(this,'adm-users')"><span class="adm-icon">👥</span>Usuários<span class="adm-badge">24</span></div>
+    <div class="adm-item" onclick="admTab(this,'adm-roles')"><span class="adm-icon">🔑</span>Papéis &amp; Permissões</div>
+    <div class="adm-item" onclick="admTab(this,'adm-invites')"><span class="adm-icon">✉️</span>Convites Pendentes<span class="adm-badge" style="background:var(--amber)">3</span></div>
+    <div class="adm-item" onclick="admTab(this,'adm-audit')"><span class="adm-icon">📋</span>Log de Auditoria</div>
+    <hr class="adm-sep">
+    <div class="adm-title" style="margin-top:4px">Sistema</div>
+    <div class="adm-item" onclick="showToast('Configurações do sistema')"><span class="adm-icon">⚙️</span>Configurações</div>
+    <div class="adm-item" onclick="showToast('Relatório exportado!')"><span class="adm-icon">⬇</span>Exportar relatório</div>
+  </div>
+
+  <div class="adm-main">
+    <div class="adm-stats">
+      <div class="adm-stat"><div class="adm-stat-lbl">Total de usuários</div><div class="adm-stat-val">24</div><div class="adm-stat-sub">↑ 2 novos este mês</div></div>
+      <div class="adm-stat"><div class="adm-stat-lbl">Ativos hoje</div><div class="adm-stat-val">9</div><div class="adm-stat-sub">38% do total</div></div>
+      <div class="adm-stat warn"><div class="adm-stat-lbl">Convites pendentes</div><div class="adm-stat-val">3</div><div class="adm-stat-sub">Expiram em 7 dias</div></div>
+      <div class="adm-stat"><div class="adm-stat-lbl">Papéis configurados</div><div class="adm-stat-val">4</div><div class="adm-stat-sub">Admin · Curador · Pesq. · Visitante</div></div>
+    </div>
+
+    <!-- TAB USERS -->
+    <div id="adm-users">
+      <div class="adm-toolbar">
+        <div class="adm-search-wrap"><span class="adm-search-icon">🔍</span><input class="adm-search" type="text" placeholder="Buscar por nome, e-mail ou instituição..."></div>
+        <select class="adm-fsel"><option>Todos os papéis</option><option>Administrador</option><option>Curador</option><option>Pesquisador</option><option>Visitante</option></select>
+        <select class="adm-fsel"><option>Todos os status</option><option>Ativo</option><option>Inativo</option><option>Suspenso</option></select>
+        <button class="adm-inv-btn" onclick="openInviteModal()">+ Convidar usuário</button>
+      </div>
+      <div class="adm-table-wrap">
+        <table class="adm-table">
+          <thead><tr><th>Usuário ↕</th><th>Papel ↕</th><th>Instituição</th><th>Último acesso ↕</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="adm-user-cell"><div class="adm-av" style="background:var(--amber-bg);color:var(--amber);">MA</div><div><div class="adm-uname">Maria Aparecida Santos</div><div class="adm-uemail">m.santos@pinacoteca.org.br</div></div></div></td>
+              <td><span class="role-b role-admin">Administrador</span></td>
+              <td style="font-size:12px;color:var(--text-3)">Pinacoteca SP</td>
+              <td style="font-size:12px;color:var(--text-3)">Hoje, 11:24</td>
+              <td><span class="stat-b st-ativo">Ativo</span></td>
+              <td><div class="row-acts"><button class="row-btn pri" onclick="openEditUser('Maria Aparecida Santos','Administrador','Pinacoteca SP','m.santos@pinacoteca.org.br')">Editar</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="adm-user-cell"><div class="adm-av" style="background:var(--blue-bg);color:var(--blue);">RC</div><div><div class="adm-uname">Rafael Costa Ferreira</div><div class="adm-uemail">r.costa@pinacoteca.org.br</div></div></div></td>
+              <td><span class="role-b role-curador">Curador</span></td>
+              <td style="font-size:12px;color:var(--text-3)">Pinacoteca SP</td>
+              <td style="font-size:12px;color:var(--text-3)">Hoje, 09:05</td>
+              <td><span class="stat-b st-ativo">Ativo</span></td>
+              <td><div class="row-acts"><button class="row-btn pri" onclick="openEditUser('Rafael Costa Ferreira','Curador','Pinacoteca SP','r.costa@pinacoteca.org.br')">Editar</button><button class="row-btn dng" onclick="showToast('Usuário suspenso')">Suspender</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="adm-user-cell"><div class="adm-av" style="background:var(--green-bg);color:var(--green);">AL</div><div><div class="adm-uname">Prof.ª Ana Lima</div><div class="adm-uemail">ana.lima@usp.br</div></div></div></td>
+              <td><span class="role-b role-pesq">Pesquisador</span></td>
+              <td style="font-size:12px;color:var(--text-3)">USP — FFLCH</td>
+              <td style="font-size:12px;color:var(--text-3)">Ontem, 15:40</td>
+              <td><span class="stat-b st-ativo">Ativo</span></td>
+              <td><div class="row-acts"><button class="row-btn pri" onclick="openEditUser('Prof.ª Ana Lima','Pesquisador','USP — FFLCH','ana.lima@usp.br')">Editar</button><button class="row-btn dng" onclick="showToast('Usuário suspenso')">Suspender</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="adm-user-cell"><div class="adm-av" style="background:var(--gray-bg);color:var(--text-3);">CF</div><div><div class="adm-uname">Carlos Figueiredo</div><div class="adm-uemail">c.figueiredo@mackenzie.br</div></div></div></td>
+              <td><span class="role-b role-visit">Visitante</span></td>
+              <td style="font-size:12px;color:var(--text-3)">Mackenzie</td>
+              <td style="font-size:12px;color:var(--text-3)">15 dias atrás</td>
+              <td><span class="stat-b st-inativo">Inativo</span></td>
+              <td><div class="row-acts"><button class="row-btn pri" onclick="openEditUser('Carlos Figueiredo','Visitante','Mackenzie','c.figueiredo@mackenzie.br')">Editar</button><button class="row-btn dng" onclick="showToast('Usuário removido')">Remover</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="adm-user-cell"><div class="adm-av" style="background:var(--red-bg);color:var(--red);">BT</div><div><div class="adm-uname">Bruno Teixeira</div><div class="adm-uemail">b.teixeira@email.com</div></div></div></td>
+              <td><span class="role-b role-visit">Visitante</span></td>
+              <td style="font-size:12px;color:var(--text-3)">Externo</td>
+              <td style="font-size:12px;color:var(--text-3)">22 dias atrás</td>
+              <td><span class="stat-b st-suspenso">Suspenso</span></td>
+              <td><div class="row-acts"><button class="row-btn" onclick="showToast('Usuário reativado')">Reativar</button><button class="row-btn dng" onclick="showToast('Usuário removido')">Remover</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:var(--text-3);text-align:right;">Exibindo 5 de 24 usuários · <span style="color:var(--accent);cursor:pointer;">Ver todos</span></p>
+    </div>
+
+    <!-- TAB ROLES -->
+    <div id="adm-roles" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <p style="font-size:12px;color:var(--text-3);">Matriz de permissões por módulo e papel.</p>
+        <button class="adm-inv-btn" onclick="showToast('Editor de papel aberto')">+ Novo papel</button>
+      </div>
+      <div class="perm-wrap">
+        <table class="perm-tbl">
+          <thead><tr><th style="text-align:left;width:200px;">Módulo / Funcionalidade</th><th><span class="role-b role-admin">Administrador</span></th><th><span class="role-b role-curador">Curador</span></th><th><span class="role-b role-pesq">Pesquisador</span></th><th><span class="role-b role-visit">Visitante</span></th></tr></thead>
+          <tbody>
+            <tr><td>🔍 Busca no acervo</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td></tr>
+            <tr><td>🖼️ Visualizar obras</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td></tr>
+            <tr><td>✦ Assistente IA</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>🗂 Coleções pessoais</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>📊 Análise preditiva</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="ppt">Parcial</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>📝 Solicitar aquisição</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>✏️ Editar metadados</td><td><span class="pck">✓</span></td><td><span class="pck">✓</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>👥 Gerenciar usuários</td><td><span class="pck">✓</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>🔑 Configurar permissões</td><td><span class="pck">✓</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td></tr>
+            <tr><td>📋 Log de auditoria</td><td><span class="pck">✓</span></td><td><span class="ppt">Parcial</span></td><td><span class="pno">—</span></td><td><span class="pno">—</span></td></tr>
+            <tr style="background:var(--gray-bg)"><td style="color:var(--text-3);font-weight:400;font-size:12px;">Usuários neste papel</td><td style="font-size:12px;color:var(--text-3)">2</td><td style="font-size:12px;color:var(--text-3)">4</td><td style="font-size:12px;color:var(--text-3)">15</td><td style="font-size:12px;color:var(--text-3)">3</td></tr>
+            <tr style="background:var(--gray-bg)"><td></td><td><button class="perm-edit" onclick="showToast('Editor: Administrador')">Editar</button></td><td><button class="perm-edit" onclick="showToast('Editor: Curador')">Editar</button></td><td><button class="perm-edit" onclick="showToast('Editor: Pesquisador')">Editar</button></td><td><button class="perm-edit" onclick="showToast('Editor: Visitante')">Editar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB INVITES -->
+    <div id="adm-invites" style="display:none">
+      <div class="adm-toolbar"><button class="adm-inv-btn" onclick="openInviteModal()">+ Enviar novo convite</button></div>
+      <div class="adm-table-wrap">
+        <table class="adm-table">
+          <thead><tr><th>E-mail</th><th>Papel</th><th>Convidado por</th><th>Enviado em</th><th>Expira em</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody>
+            <tr><td style="font-size:13px">lucia.mendes@puc.br</td><td><span class="role-b role-pesq">Pesquisador</span></td><td style="font-size:12px;color:var(--text-3)">Maria A.</td><td style="font-size:12px;color:var(--text-3)">26/03/2026</td><td style="font-size:12px;color:var(--amber);font-weight:500">2 dias</td><td><span class="stat-b st-pendente">Pendente</span></td><td><div class="row-acts"><button class="row-btn" onclick="showToast('Convite reenviado')">Reenviar</button><button class="row-btn dng" onclick="showToast('Convite cancelado')">Cancelar</button></div></td></tr>
+            <tr><td style="font-size:13px">t.rodrigues@unifesp.br</td><td><span class="role-b role-pesq">Pesquisador</span></td><td style="font-size:12px;color:var(--text-3)">Rafael C.</td><td style="font-size:12px;color:var(--text-3)">24/03/2026</td><td style="font-size:12px;color:var(--amber);font-weight:500">4 dias</td><td><span class="stat-b st-pendente">Pendente</span></td><td><div class="row-acts"><button class="row-btn" onclick="showToast('Convite reenviado')">Reenviar</button><button class="row-btn dng" onclick="showToast('Convite cancelado')">Cancelar</button></div></td></tr>
+            <tr><td style="font-size:13px">novo.curador@pinacoteca.org.br</td><td><span class="role-b role-curador">Curador</span></td><td style="font-size:12px;color:var(--text-3)">Maria A.</td><td style="font-size:12px;color:var(--text-3)">20/03/2026</td><td style="font-size:12px;color:var(--red);font-weight:500">Expirado</td><td><span class="stat-b st-inativo">Expirado</span></td><td><div class="row-acts"><button class="row-btn pri" onclick="showToast('Convite renovado')">Renovar</button><button class="row-btn dng" onclick="showToast('Convite removido')">Remover</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB AUDIT -->
+    <div id="adm-audit" style="display:none">
+      <div class="adm-toolbar">
+        <div class="adm-search-wrap"><span class="adm-search-icon">🔍</span><input class="adm-search" type="text" placeholder="Filtrar por usuário, ação ou módulo..."></div>
+        <select class="adm-fsel"><option>Todas as ações</option><option>Criação</option><option>Edição</option><option>Remoção</option></select>
+        <button class="adm-inv-btn" style="background:var(--surface);color:var(--text-2);border:1px solid var(--border-md);box-shadow:var(--sh1);" onclick="showToast('Log exportado como CSV')">⬇ Exportar</button>
+      </div>
+      <div class="audit-list">
+        <div class="audit-item"><div class="audit-ic aic-add">➕</div><div class="audit-body"><strong>Usuário convidado — lucia.mendes@puc.br</strong><p>Maria Aparecida Santos · Papel: Pesquisador · IP: 192.168.1.4</p></div><div class="audit-time">26/03/2026 · 14:32</div></div>
+        <div class="audit-item"><div class="audit-ic aic-edit">✏️</div><div class="audit-body"><strong>Papel alterado — João Marcos Pereira</strong><p>Maria Aparecida Santos · De: Visitante → Para: Pesquisador</p></div><div class="audit-time">25/03/2026 · 10:15</div></div>
+        <div class="audit-item"><div class="audit-ic aic-acc">🔒</div><div class="audit-body"><strong>Acesso negado — módulo Aquisições</strong><p>Carlos Figueiredo (Visitante) tentou acessar painel de aquisições</p></div><div class="audit-time">22/03/2026 · 16:07</div></div>
+        <div class="audit-item"><div class="audit-ic aic-rm">🚫</div><div class="audit-body"><strong>Usuário suspenso — Bruno Teixeira</strong><p>Maria Aparecida Santos · Motivo: Uso indevido dos recursos de exportação</p></div><div class="audit-time">18/03/2026 · 09:48</div></div>
+        <div class="audit-item"><div class="audit-ic aic-edit">✏️</div><div class="audit-body"><strong>Permissão editada — papel Pesquisador</strong><p>Módulo "Análise Preditiva" alterado para Parcial</p></div><div class="audit-time">15/03/2026 · 11:20</div></div>
+        <div class="audit-item"><div class="audit-ic aic-sys">⚙️</div><div class="audit-body"><strong>Política de senha atualizada</strong><p>Sistema · Expiração 90 dias · 2FA ativado</p></div><div class="audit-time">01/03/2026 · 00:00</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+ MODALS
+══════════════════════════════════════════ -->
+
+<!-- Save to collection -->
+<div class="overlay" id="saveModal" onclick="if(event.target===this)closeSaveModal()">
+  <div class="modal-box">
+    <div class="modal-hd"><h3>Salvar na coleção</h3><button class="modal-close" onclick="closeSaveModal()">×</button></div>
+    <p style="font-size:13px;color:var(--text-3);margin-bottom:1rem;">Escolha uma coleção ou crie uma nova.</p>
+    <div class="coll-opts">
+      <div class="coll-opt sel" onclick="selectCO(this)"><div class="coll-opt-dot" style="background:#8B3A10"></div><div class="coll-opt-info"><strong>Abstracionismo Brasileiro</strong><span>7 obras · Privada</span></div><span class="coll-check">✓</span></div>
+      <div class="coll-opt" onclick="selectCO(this)"><div class="coll-opt-dot" style="background:#2B4C7E"></div><div class="coll-opt-info"><strong>Gravura Séc. XX</strong><span>4 obras · Privada</span></div><span class="coll-check" style="opacity:0">✓</span></div>
+      <div class="coll-opt" onclick="selectCO(this)"><div class="coll-opt-dot" style="background:#1E5C3C"></div><div class="coll-opt-info"><strong>Modernismo Paulista</strong><span>12 obras · Privada</span></div><span class="coll-check" style="opacity:0">✓</span></div>
+      <div class="coll-opt" onclick="selectCO(this)"><div class="coll-opt-dot" style="background:#6B4226"></div><div class="coll-opt-info"><strong>Pesquisa Mestrado</strong><span>3 obras · Privada</span></div><span class="coll-check" style="opacity:0">✓</span></div>
+    </div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:0 0 1rem">
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:8px;font-weight:500">Criar nova coleção</p>
+    <div class="new-coll-row">
+      <input class="f-input" id="newCollInput" type="text" placeholder="Nome da nova coleção...">
+      <button class="new-coll-btn" onclick="createColl()">Criar</button>
+    </div>
+    <div class="modal-footer"><button class="m-cancel" onclick="closeSaveModal()">Cancelar</button><button class="m-save" onclick="confirmSave()">Salvar na coleção</button></div>
+  </div>
+</div>
+
+<!-- Acquisition modal -->
+<div class="overlay" id="acqModal" onclick="if(event.target===this)closeAcqModal()">
+  <div class="modal-box wide">
+    <div class="modal-hd"><h3>Solicitar Aquisição</h3><button class="modal-close" onclick="closeAcqModal()">×</button></div>
+    <div class="ai-prefill"><span style="font-size:18px;flex-shrink:0">✦</span><span style="font-size:13px;color:var(--text-2)">Campos pré-preenchidos pela IA com base na análise preditiva. Revise antes de enviar.</span></div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label">Artista</label><input class="f-input" id="acqArtist" type="text"></div>
+      <div class="f-group"><label class="f-label">Score de prioridade (IA)</label><input class="f-input f-readonly" id="acqScore" readonly></div>
+    </div>
+    <div class="f-group"><label class="f-label">Título / Descrição</label><input class="f-input" id="acqTitle" type="text"></div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label">Ano estimado</label><input class="f-input" id="acqYear" type="text"></div>
+      <div class="f-group"><label class="f-label">Técnica / Suporte</label><input class="f-input" id="acqTech" type="text"></div>
+    </div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label">Valor estimado</label><input class="f-input" id="acqValue" type="text"></div>
+      <div class="f-group"><label class="f-label">Prioridade</label><select class="f-select"><option>Urgente</option><option>Alta</option><option>Média</option></select></div>
+    </div>
+    <div class="f-group"><label class="f-label">Justificativa acadêmica / curatorial</label><textarea class="f-textarea" id="acqJustif" rows="3"></textarea></div>
+    <div class="f-group"><label class="f-label">Fonte / Proveniência sugerida</label><input class="f-input" type="text" placeholder="Ex: Galeria X, Coleção Y, Herdeiros do artista..."></div>
+    <div class="f-group"><label class="f-label">Documentação de suporte</label><div class="drop-area" onclick="showToast('Selecione arquivos para anexar')">+ Arraste arquivos ou clique para selecionar (PDF, JPG, PNG)</div></div>
+    <div class="modal-footer"><button class="m-cancel" onclick="closeAcqModal()">Cancelar</button><button class="m-save" onclick="submitAcq()">Enviar Solicitação</button></div>
+  </div>
+</div>
+
+<!-- Invite modal -->
+<div class="overlay" id="inviteModal" onclick="if(event.target===this)closeInviteModal()">
+  <div class="modal-box">
+    <div class="modal-hd"><h3>Convidar usuário</h3><button class="modal-close" onclick="closeInviteModal()">×</button></div>
+    <p style="font-size:13px;color:var(--text-3);margin-bottom:1rem;">O usuário receberá um e-mail com link válido por 7 dias.</p>
+    <div class="f-group"><label class="f-label">E-mail</label><input class="f-input" id="invEmail" type="email" placeholder="nome@instituicao.edu.br"></div>
+    <div class="f-group"><label class="f-label">Instituição (opcional)</label><input class="f-input" type="text" placeholder="USP, Mackenzie, Pinacoteca SP..."></div>
+    <div class="f-group">
+      <label class="f-label">Papel</label>
+      <div class="role-grid">
+        <div class="role-opt" onclick="selRole(this)"><strong>Administrador</strong><p>Acesso total. Gerencia usuários e configurações.</p></div>
+        <div class="role-opt sel" onclick="selRole(this)"><strong>Curador</strong><p>Edita acervo e solicita aquisições.</p></div>
+        <div class="role-opt" onclick="selRole(this)"><strong>Pesquisador</strong><p>Busca, IA e coleções pessoais.</p></div>
+        <div class="role-opt" onclick="selRole(this)"><strong>Visitante</strong><p>Somente leitura do acervo.</p></div>
+      </div>
+    </div>
+    <div class="f-group"><label class="f-label">Mensagem personalizada (opcional)</label><textarea class="f-textarea" placeholder="Ex: Olá! Convidamos você a acessar o Centro de Memória Digital..."></textarea></div>
+    <div class="modal-footer"><button class="m-cancel" onclick="closeInviteModal()">Cancelar</button><button class="m-save" onclick="sendInvite()">Enviar convite</button></div>
+  </div>
+</div>
+
+<!-- Edit user modal -->
+<div class="overlay" id="editUserModal" onclick="if(event.target===this)closeEditUser()">
+  <div class="modal-box wide">
+    <div class="modal-hd"><h3>Editar usuário</h3><button class="modal-close" onclick="closeEditUser()">×</button></div>
+    <div class="edit-profile">
+      <div class="adm-av" id="editAv" style="width:46px;height:46px;font-size:15px;background:var(--green-bg);color:var(--green);">?</div>
+      <div><div style="font-weight:500;font-size:14px;" id="editName">—</div><div style="font-size:12px;color:var(--text-3);" id="editEmail">—</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;" id="editInst">—</div></div>
+    </div>
+    <div class="f-group"><label class="f-label">Papel</label><select class="f-select" id="editRole"><option>Administrador</option><option>Curador</option><option>Pesquisador</option><option>Visitante</option></select></div>
+    <div class="f-group">
+      <label class="f-label">Permissões individuais</label>
+      <div class="edit-perms">
+        <div class="perm-row"><div class="perm-row-lbl">Assistente IA<span>Realizar consultas em linguagem natural</span></div><div class="toggle on" onclick="tog(this)"><div class="knob"></div></div></div>
+        <div class="perm-row"><div class="perm-row-lbl">Coleções pessoais<span>Criar, editar e compartilhar coleções</span></div><div class="toggle on" onclick="tog(this)"><div class="knob"></div></div></div>
+        <div class="perm-row"><div class="perm-row-lbl">Análise preditiva (leitura)<span>Ver sugestões de aquisição da IA</span></div><div class="toggle off" onclick="tog(this)"><div class="knob"></div></div></div>
+        <div class="perm-row"><div class="perm-row-lbl">Exportar dados do acervo<span>Download de fichas, imagens e relatórios</span></div><div class="toggle on" onclick="tog(this)"><div class="knob"></div></div></div>
+      </div>
+    </div>
+    <div class="danger-z"><p>Ações de risco — não podem ser desfeitas facilmente.</p><div class="dz-btns"><button class="dz-btn" onclick="showToast('Usuário suspenso');closeEditUser()">Suspender acesso</button><button class="dz-btn" onclick="showToast('Conta removida');closeEditUser()">Remover usuário</button></div></div>
+    <div class="modal-footer"><button class="m-cancel" onclick="closeEditUser()">Cancelar</button><button class="m-save" onclick="saveEditUser()">Salvar alterações</button></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- BOTTOM NAV -->
+<div class="proto-nav">
+  <span>Protótipo Alta Fidelidade:</span>
+  <button class="pn-btn" id="pn-home" onclick="goto('home')">1 · Início</button>
+  <button class="pn-btn" id="pn-results" onclick="goto('results')">2 · Acervo</button>
+  <button class="pn-btn" id="pn-artist" onclick="goto('artist')">3 · Artista</button>
+  <button class="pn-btn" id="pn-ai" onclick="goto('ai')">4 · Assistente IA</button>
+  <button class="pn-btn" id="pn-work" onclick="goto('work')">5 · Obra</button>
+  <button class="pn-btn" id="pn-collections" onclick="goto('collections')">6 · Coleções</button>
+  <button class="pn-btn" id="pn-acquisition" onclick="goto('acquisition')">7 · Aquisições IA</button>
+  <button class="pn-btn" id="pn-admin" onclick="goto('admin')">8 · Usuários</button>
+</div>
+
+<script>
+/* ─── NAVIGATION ─────────────────────────────── */
+function goto(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.pn-btn').forEach(b=>b.classList.remove('active'));
+  const nb=document.getElementById('pn-'+name);
+  if(nb)nb.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ─── ARTIST TABS ────────────────────────────── */
+function setTab(el,id){
+  document.querySelectorAll('#screen-artist .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['tab-bio','tab-works','tab-docs'].forEach(i=>{
+    const e=document.getElementById(i);if(e)e.style.display=(i===id)?'block':'none';
+  });
+}
+
+/* ─── AI CHAT ────────────────────────────────── */
+function sendMsg(btn){
+  const list=document.getElementById('msgList');
+  const text=btn.textContent;
+  btn.closest('.sugg-btns').innerHTML='';
+  appendMsg(list,'user',text);
+  const tv=appendMsg(list,'ai','<div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>');
+  list.scrollTop=list.scrollHeight;
+  setTimeout(()=>{
+    tv.innerHTML=`<p>Com base no acervo da Pinacoteca, encontrei <strong>41 obras</strong> de Fayga do período 1950–1969 — quando sua transição ao abstracionismo atingiu plena maturidade.</p><div class="sugg-btns"><button class="sugg-btn" onclick="goto('results')">Ver as obras ↗</button></div>`;
+    list.scrollTop=list.scrollHeight;
+  },1400);
+}
+function sendCustomMsg(){
+  const inp=document.getElementById('aiInput');
+  const text=inp.value.trim();if(!text)return;
+  const list=document.getElementById('msgList');
+  appendMsg(list,'user',text);inp.value='';
+  const tv=appendMsg(list,'ai','<div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>');
+  list.scrollTop=list.scrollHeight;
+  setTimeout(()=>{
+    tv.innerHTML=`<p>Buscando nas fontes do acervo… Encontrei informações relevantes sobre "<strong>${text}</strong>" em ${10+Math.floor(Math.random()*70)} documentos indexados.</p><div class="sugg-btns"><button class="sugg-btn" onclick="goto('results')">Ver resultados ↗</button><button class="sugg-btn" onclick="goto('artist')">Ver artista ↗</button></div>`;
+    list.scrollTop=list.scrollHeight;
+  },1500);
+}
+function appendMsg(list,type,html){
+  const d=document.createElement('div');
+  d.className='msg'+(type==='user'?' user':'');
+  const av=document.createElement('div');av.className='msg-av '+(type==='ai'?'ai':'user');av.textContent=type==='ai'?'✦':'U';
+  const b=document.createElement('div');b.className='msg-bubble';b.innerHTML=html;
+  if(type==='user'){d.appendChild(av);d.appendChild(b)}else{d.appendChild(av);d.appendChild(b)}
+  list.appendChild(d);return b;
+}
+function setAiInput(el){document.getElementById('aiInput').value=el.textContent;document.getElementById('aiInput').focus()}
+
+/* ─── COLLECTIONS ────────────────────────────── */
+function selectColl(el,name){
+  document.querySelectorAll('.cs-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('collTitle').textContent=name;
+  const c={'Abstracionismo Brasileiro':7,'Gravura Séc. XX':4,'Modernismo Paulista':12,'Pesquisa Mestrado':3,'Arte Concreta – Prof. Ana':9};
+  document.getElementById('collCount').textContent=c[name]||'—';
+  const d={'Abstracionismo Brasileiro':'Obras selecionadas para pesquisa sobre o movimento abstracionista no Brasil (1940–1980).','Gravura Séc. XX':'Referências técnicas e históricas sobre gravura no Brasil no século XX.','Modernismo Paulista':'Obras representativas do modernismo com foco em São Paulo.','Pesquisa Mestrado':'Seleção para a dissertação — cap. 2 e 3.','Arte Concreta – Prof. Ana':'Compartilhada pela Prof.ª Ana Luíza.'};
+  document.getElementById('collDesc').textContent=d[name]||'';
+}
+function removeItem(btn){
+  const c=btn.closest('.coll-card');
+  c.style.transition='all .25s';c.style.opacity='0';c.style.transform='scale(.9)';
+  setTimeout(()=>c.remove(),250);
+  const cnt=document.getElementById('collCount');
+  cnt.textContent=Math.max(0,parseInt(cnt.textContent)-1);
+  showToast('Obra removida da coleção');
+}
+function addNote(el){
+  const b=el.parentElement;
+  el.outerHTML=`<textarea style="width:100%;font-size:11px;font-family:'DM Sans',sans-serif;border:1.5px solid var(--border-md);border-radius:6px;padding:5px 8px;background:var(--bg);color:var(--text-1);resize:vertical;outline:none;transition:border-color .18s" rows="2" placeholder="Adicionar anotação..." onblur="saveNote(this)"></textarea>`;
+  b.querySelector('textarea').focus();
+}
+function editNote(el){
+  const note=el.parentElement.querySelector('.cc-note');
+  const txt=note.textContent;
+  note.outerHTML=`<textarea style="width:100%;font-size:11px;font-family:'DM Sans',sans-serif;border:1.5px solid var(--accent);border-radius:6px;padding:5px 8px;background:var(--bg);color:var(--text-1);resize:vertical;outline:none;" rows="2" onblur="saveNote(this)">${txt}</textarea>`;
+  el.parentElement.querySelector('textarea').focus();
+}
+function saveNote(ta){
+  const txt=ta.value.trim();
+  if(txt)ta.outerHTML=`<div class="cc-note">${txt}</div><div class="cc-add-note" onclick="event.stopPropagation();editNote(this)">✏️ Editar anotação</div>`;
+  else ta.outerHTML=`<div class="cc-add-note" onclick="event.stopPropagation();addNote(this)">+ Adicionar anotação</div>`;
+  showToast('Anotação salva');
+}
+
+/* ─── SAVE MODAL ─────────────────────────────── */
+function openSaveModal(){document.getElementById('saveModal').classList.add('open')}
+function closeSaveModal(){document.getElementById('saveModal').classList.remove('open')}
+function selectCO(el){
+  document.querySelectorAll('.coll-opt').forEach(o=>{o.classList.remove('sel');o.querySelector('.coll-check').style.opacity='0'});
+  el.classList.add('sel');el.querySelector('.coll-check').style.opacity='1';
+}
+function createColl(){
+  const inp=document.getElementById('newCollInput');
+  const name=inp.value.trim();if(!name)return;
+  const colors=['#8B3A10','#2B4C7E','#1E5C3C','#6B4226','#A0620A'];
+  const c=colors[Math.floor(Math.random()*colors.length)];
+  const opt=document.createElement('div');opt.className='coll-opt';opt.onclick=function(){selectCO(this)};
+  opt.innerHTML=`<div class="coll-opt-dot" style="background:${c}"></div><div class="coll-opt-info"><strong>${name}</strong><span>0 obras · Privada</span></div><span class="coll-check" style="opacity:0">✓</span>`;
+  document.querySelector('.coll-opts').appendChild(opt);inp.value='';selectCO(opt);showToast(`Coleção "${name}" criada`);
+}
+function confirmSave(){
+  const s=document.querySelector('.coll-opt.sel strong');
+  const name=s?s.textContent:'sua coleção';
+  closeSaveModal();showToast(`Obra salva em "${name}"`);
+}
+
+/* ─── ACQ MODAL ──────────────────────────────── */
+function acqTab(el,id){
+  document.querySelectorAll('.acq-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['acq-sugg','acq-req','acq-hist'].forEach(i=>{const e=document.getElementById(i);if(e)e.style.display=(i===id)?'block':'none'});
+}
+const jmap={
+  'Iberê Camargo':'O período 1955–1970 de Iberê Camargo — fase dos Carretéis — é o mais buscado pelos pesquisadores e está completamente ausente do acervo físico. Lacuna crítica identificada em 47 pesquisas sem resultado.',
+  'Lygia Clark':'A fase neoconcreta (1957–1960) concentra o maior interesse acadêmico internacional e não está representada. Tendência de crescimento de 52% em buscas por neoconcreto.',
+  'Roberto De Lamonica':'A IA identificou 28 co-buscas com Fayga Ostrower sem resultado para De Lamonica. A fase madura está sub-representada.'
+};
+function openAcqModal(artist,title,year,tech,score,value){
+  document.getElementById('acqArtist').value=artist||'';
+  document.getElementById('acqTitle').value=title||'';
+  document.getElementById('acqYear').value=year||'';
+  document.getElementById('acqTech').value=tech||'';
+  document.getElementById('acqScore').value=score?score+' / 100':'';
+  document.getElementById('acqValue').value=value||'';
+  document.getElementById('acqJustif').value=jmap[artist]||'';
+  document.getElementById('acqModal').classList.add('open');
+}
+function closeAcqModal(){document.getElementById('acqModal').classList.remove('open')}
+function submitAcq(){
+  const a=document.getElementById('acqArtist').value;
+  closeAcqModal();showToast('Solicitação enviada'+(a?' — '+a:''));
+  document.querySelectorAll('.acq-btn-req').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(a.split(' ')[0])){b.textContent='✓ Solicitado';b.disabled=true}});
+}
+
+/* ─── ADMIN ──────────────────────────────────── */
+function admTab(el,id){
+  document.querySelectorAll('.adm-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  ['adm-users','adm-roles','adm-invites','adm-audit'].forEach(i=>{const e=document.getElementById(i);if(e)e.style.display=(i===id)?'block':'none'});
+}
+function openInviteModal(){document.getElementById('inviteModal').classList.add('open')}
+function closeInviteModal(){document.getElementById('inviteModal').classList.remove('open')}
+function selRole(el){el.closest('.role-grid').querySelectorAll('.role-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel')}
+function sendInvite(){
+  const email=document.getElementById('invEmail').value.trim();
+  const r=document.querySelector('.role-opt.sel strong');
+  closeInviteModal();
+  showToast(email?`Convite enviado para ${email}`+(r?' — '+r.textContent:''):'Informe um e-mail');
+}
+function openEditUser(name,role,inst,email){
+  const initials=(name||'??').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const colors={Administrador:'var(--amber-bg),var(--amber)',Curador:'var(--blue-bg),var(--blue)',Pesquisador:'var(--green-bg),var(--green)',Visitante:'var(--gray-bg),var(--text-3)'};
+  const [bg,fg]=(colors[role]||colors['Visitante']).split(',');
+  const av=document.getElementById('editAv');
+  av.textContent=initials;av.style.background=bg;av.style.color=fg;
+  document.getElementById('editName').textContent=name||'—';
+  document.getElementById('editEmail').textContent=email||'—';
+  document.getElementById('editInst').textContent=inst||'—';
+  const sel=document.getElementById('editRole');
+  for(let o of sel.options)if(o.value===role||o.text===role){sel.value=o.value;break}
+  document.getElementById('editUserModal').classList.add('open');
+}
+function closeEditUser(){document.getElementById('editUserModal').classList.remove('open')}
+function saveEditUser(){const n=document.getElementById('editName').textContent;closeEditUser();showToast('Alterações salvas'+(n?' — '+n:''))}
+function tog(el){el.classList.toggle('on');el.classList.toggle('off')}
+
+/* ─── TOAST ──────────────────────────────────── */
+let tt;
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+goto('home');
+</script>
+</body>
+</html>
